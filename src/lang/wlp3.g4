@@ -26,17 +26,18 @@ expr: INT | STRING | BOOL
 	| '&' expr
     ;
 statement: lvalue '=' expr ';'
-         | 'if' '(' predicate ')' block 'else' block
+       | 'if' '(' predicate ')' block 'else' block
 	     | 'while' '(' predicate ')' block
 	     | 'printf' '(' expr ')' ';'
 	     | dcl ';'
 	     | dcl '=' expr ';'
 	     | 'return' expr ';'
-	     | 'free' '(' expr ')'  ';'
-         ;
+	     | 'free' '(' expr ')' ';'
+       | expr ';'
+       ;
 arglist: expr (',' expr)*
 	   | <empty>
-       ;
+     ;
 binaryoperator: '+'
                | '-'
                | '*'
