@@ -6,20 +6,25 @@ import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
 
-import { CalcLexer } from '../lang/CalcLexer'
+import { wlp3Lexer } from '../lang/wlp3Lexer'
 import {
-  AdditionContext,
-  CalcParser,
-  DivisionContext,
-  ExpressionContext,
-  MultiplicationContext,
-  NumberContext,
-  ParenthesesContext,
-  PowerContext,
-  StartContext,
-  SubtractionContext
-} from '../lang/CalcParser'
-import { CalcVisitor } from '../lang/CalcVisitor'
+  ArglistContext,
+  BinarylogicalContext,
+  BinaryoperatorContext,
+  BlockContext,
+  DclContext,
+  ExprContext,
+  FunctionContext,
+  LvalueContext,
+  MainContext,
+  ParamsContext,
+  PredicateContext,
+  ProgramContext,
+  StatementContext,
+  TypeContext,
+  UnaryoperatorContext
+} from '../lang/wlp3Parser'
+import { wlp3Visitor } from '../lang/wlp3Visitor'
 import { Context, ErrorSeverity, ErrorType, SourceError } from '../types'
 import { stripIndent } from '../utils/formatters'
 
