@@ -5,6 +5,8 @@ import { ParseTree } from 'antlr4ts/tree/ParseTree'
 import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
+import { CalcLexer } from '../lang/CalcLexer'
+import { CalcParser } from '../lang/CalcParser'
 
 import { wlp3Lexer } from '../lang/wlp3Lexer'
 import {
@@ -22,7 +24,7 @@ import {
   ProgramContext,
   StatementContext,
   TypeContext,
-  UnaryoperatorContext
+  UnaryoperatorContext,
 } from '../lang/wlp3Parser'
 import { wlp3Visitor } from '../lang/wlp3Visitor'
 import { Context, ErrorSeverity, ErrorType, SourceError } from '../types'
@@ -113,7 +115,7 @@ export class TrailingCommaError implements SourceError {
   }
 }
 
-function contextToLocation(ctx: ExpressionContext): es.SourceLocation {
+function contextToLocation(ctx: ProgramContext): es.SourceLocation {
   return {
     start: {
       line: ctx.start.line,
