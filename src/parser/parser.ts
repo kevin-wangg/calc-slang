@@ -19,6 +19,7 @@ import {
   FunctionContext,
   LvalueContext,
   MainContext,
+  MorefunctionsContext,
   ParamsContext,
   PredicateContext,
   ProgramContext,
@@ -127,7 +128,21 @@ function contextToLocation(ctx: ProgramContext): es.SourceLocation {
     }
   }
 }
-class ExpressionGenerator implements CalcVisitor<es.Expression> {
+
+class ProgramGenerator implements wlp3Visitor<es.Node> {
+  visitMorefunctions(ctx: MorefunctionsContext): es.Node {
+    return {
+      type: 'Program', 
+      script: "script",
+      body: [
+        {
+          type: 'FunctionDeclaration',
+          
+        }
+      ]
+    }
+  }
+
   visitNumber(ctx: NumberContext): es.Expression {
     return {
       type: 'Literal',

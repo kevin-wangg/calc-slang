@@ -1,7 +1,7 @@
 
 grammar wlp3;		
-program: function program 
-       | main
+program: fun=function prog=program # morefunctions
+       | mainmethod=main # mainmethod
        ;
 main:   'int' 'main' '(' ')' block ;
 function : type ID '(' params ')' block ;
