@@ -132,12 +132,11 @@ function contextToLocation(ctx: ProgramContext): es.SourceLocation {
 class ProgramGenerator implements wlp3Visitor<es.Node> {
   visitMorefunctions(ctx: MorefunctionsContext): es.Node {
     return {
-      type: 'Program', 
-      script: "script",
+      type: 'Program',
+      script: 'script',
       body: [
         {
-          type: 'FunctionDeclaration',
-          
+          type: 'FunctionDeclaration'
         }
       ]
     }
