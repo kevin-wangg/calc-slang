@@ -198,11 +198,16 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   Program: function* (node: es.BlockStatement, context: Context) {
     const result = yield* forceIt(yield* evaluateBlockSatement(context, node), context);
     return result;
+  },
+
+  MainProg: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
   }
 }
 // tslint:enable:object-literal-shorthand
 
 export function* evaluate(node: es.Node, context: Context) {
+  console.log(`Evaluating ${node}`)
   const result = yield* evaluators[node.type](node, context)
   yield* leave(context)
   return result

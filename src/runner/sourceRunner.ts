@@ -40,7 +40,9 @@ export async function sourceRunner(
   context.errors = []
 
   // Parse and validate
+  console.log('PARSING')
   const program: es.Program | undefined = parse(code, context)
+  console.log('FINISHED PARSING')
   if (!program) {
     return resolvedErrorPromise
   }
@@ -48,11 +50,12 @@ export async function sourceRunner(
   // TODO: Remove this after runners have been refactored.
   //       These should be done as part of the local imports
   //       preprocessing step.
-  removeExports(program)
-  removeNonSourceModuleImports(program)
-  hoistAndMergeImports(program)
+  //
+  // removeExports(program)
+  // removeNonSourceModuleImports(program)
+  // hoistAndMergeImports(program)
 
-  validateAndAnnotate(program, context)
+  // validateAndAnnotate(program, context)
   context.unTypecheckedCode.push(code)
 
   if (context.errors.length > 0) {

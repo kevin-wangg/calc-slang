@@ -6,6 +6,8 @@ import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
 
+import { inspect } from 'util' // Debugging
+
 import { CalcLexer } from '../lang/CalcLexer'
 import { CalcParser } from '../lang/CalcParser'
 import { wlp3Lexer } from '../lang/wlp3Lexer'
@@ -536,6 +538,8 @@ export function parse(source: string, context: Context) {
     }
     const hasErrors = context.errors.find(m => m.severity === ErrorSeverity.ERROR)
     if (program && !hasErrors) {
+      console.log('wowowoer')
+      console.log(program)
       return program
     } else {
       return undefined
