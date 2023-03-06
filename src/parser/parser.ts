@@ -10,63 +10,63 @@ import { CalcLexer } from '../lang/CalcLexer'
 import { CalcParser } from '../lang/CalcParser'
 import { wlp3Lexer } from '../lang/wlp3Lexer'
 import {
-    ArgsEmptyContext,
-    ArgsListContext,
+  AmpersandExprContext,
+  ArglistContext,
+  ArgsContext,
+  ArgsEmptyContext,
+  ArgsListContext,
   AssignmentContext,
-  BoolTypeContext,
+  BinarylogicalContext,
+  BinaryoperatorContext,
+  BinlogExprContext,
+  BinopExprContext,
+  BlockContext,
   BoolContext,
+  BoolTypeContext,
+  BracketLvalueContext,
   DclAssignmentContext,
+  DclContext,
   DclStatementContext,
+  ExprContext,
   ExprStatementContext,
+  FnExprContext,
   FreeStatementContext,
+  FunctionContext,
   FunProgContext,
+  IdExprContext,
+  IdLvalueContext,
   IfStatementContext,
   IntContext,
   IntStarTypeContext,
   IntTypeContext,
+  LvalueContext,
+  MainContext,
   MainProgContext,
+  MallocExprContext,
   MultiArgsContext,
   MultiParamContext,
+  ParamlistContext,
+  ParamsContext,
   ParamsEmptyContext,
   ParamsListContext,
+  PredicateContext,
   PrintfStatementContext,
   ProgramContext,
   ReturnStatementContext,
   SingleArgContext,
   SingleParamContext,
+  StarExprContext,
+  StatementContext,
   StatementEmptyContext,
   StatementListContext,
-  StringTypeContext,
-  StringContext,
-  WhileStatementContext,
-  wlp3Parser,
-  UnopExprContext,
-  BinopExprContext,
-  BinlogExprContext,
-  IdExprContext,
-  FnExprContext,
-  MallocExprContext,
-  StarExprContext,
-  AmpersandExprContext,
-  MainContext,
-  FunctionContext,
-  BlockContext,
   StatementlistContext,
-  ParamsContext,
-  ParamlistContext,
-  DclContext,
+  StringContext,
+  StringTypeContext,
   TypeContext,
-  ExprContext,
-  StatementContext,
-  ArgsContext,
-  ArglistContext,
-  BinaryoperatorContext,
-  BinarylogicalContext,
   UnaryoperatorContext,
-  PredicateContext,
-  LvalueContext,
-  IdLvalueContext,
-  BracketLvalueContext
+  UnopExprContext,
+  WhileStatementContext,
+  wlp3Parser
 } from '../lang/wlp3Parser'
 import { wlp3Visitor } from '../lang/wlp3Visitor'
 import { Context, ErrorSeverity, ErrorType, SourceError } from '../types'
@@ -180,7 +180,7 @@ class ProgramGenerator implements wlp3Visitor<any> {
   }
   visitStatementEmpty(ctx: StatementEmptyContext): any {
     return {
-      type: 'StatementEmpty',
+      type: 'StatementEmpty'
     }
   }
   visitSingleParam(ctx: SingleParamContext): any {
@@ -217,27 +217,27 @@ class ProgramGenerator implements wlp3Visitor<any> {
   }
   visitParamsEmpty(ctx: ParamsEmptyContext): any {
     return {
-      type: 'ParamsEmpty',
+      type: 'ParamsEmpty'
     }
   }
   visitIntType(ctx: IntTypeContext): any {
     return {
-      type: 'IntType',
+      type: 'IntType'
     }
   }
   visitBoolType(ctx: BoolTypeContext): any {
     return {
-      type: 'BoolType',
+      type: 'BoolType'
     }
   }
   visitStringType(ctx: StringTypeContext): any {
     return {
-      type: 'StringType',
+      type: 'StringType'
     }
   }
   visitIntStarType(ctx: IntStarTypeContext): any {
     return {
-      type: 'IntStarTypeContext',
+      type: 'IntStarTypeContext'
     }
   }
   visitArgsList(ctx: ArgsListContext): any {
@@ -350,7 +350,7 @@ class ProgramGenerator implements wlp3Visitor<any> {
   visitBool(ctx: BoolContext): any {
     return {
       type: 'BoolLiteral',
-      val: (ctx.text === 'true')
+      val: ctx.text === 'true'
     }
   }
   visitUnopExpr(ctx: UnopExprContext): any {
@@ -379,7 +379,7 @@ class ProgramGenerator implements wlp3Visitor<any> {
   visitIdExpr(ctx: IdExprContext): any {
     return {
       type: 'IdExpr',
-      id: ctx.ID() 
+      id: ctx.ID()
     }
   }
   visitFnExpr(ctx: FnExprContext): any {
@@ -434,9 +434,9 @@ class ProgramGenerator implements wlp3Visitor<any> {
     }
   }
 
-	visitStatementlist?: (ctx: StatementlistContext) => any;
-	visitParams?: (ctx: ParamsContext) => any;
-	visitParamlist?: (ctx: ParamlistContext) => any;
+  visitStatementlist?: (ctx: StatementlistContext) => any
+  visitParams?: (ctx: ParamsContext) => any
+  visitParamlist?: (ctx: ParamlistContext) => any
   visitDcl(ctx: DclContext): any {
     return {
       type: 'Dcl',
@@ -444,26 +444,26 @@ class ProgramGenerator implements wlp3Visitor<any> {
       id: ctx.ID()
     }
   }
-	visitType?: (ctx: TypeContext) => any;
-	visitExpr?: (ctx: ExprContext) => any;
-	visitStatement?: (ctx: StatementContext) => any;
-	visitArgs?: (ctx: ArgsContext) => any;
-	visitArglist?: (ctx: ArglistContext) => any;
-	visitBinaryoperator?: (ctx: BinaryoperatorContext) => any;
-	visitBinarylogical?: (ctx: BinarylogicalContext) => any;
-	visitUnaryoperator?: (ctx: UnaryoperatorContext) => any;
+  visitType?: (ctx: TypeContext) => any
+  visitExpr?: (ctx: ExprContext) => any
+  visitStatement?: (ctx: StatementContext) => any
+  visitArgs?: (ctx: ArgsContext) => any
+  visitArglist?: (ctx: ArglistContext) => any
+  visitBinaryoperator?: (ctx: BinaryoperatorContext) => any
+  visitBinarylogical?: (ctx: BinarylogicalContext) => any
+  visitUnaryoperator?: (ctx: UnaryoperatorContext) => any
   visitPredicate(ctx: PredicateContext): any {
     return {
       type: 'Predicate',
       pred: this.visit(ctx._pred)
     }
   }
-	visitLvalue?: (ctx: LvalueContext) => any;
+  visitLvalue?: (ctx: LvalueContext) => any
 
   visit(tree: ParseTree): any {
     return tree.accept(this)
   }
-  
+
   // idk what to do with this
   visitChildren(node: RuleNode): any {
     const expressions: es.Expression[] = []
@@ -514,7 +514,6 @@ function convertSource(program: ProgramContext): any {
   //   ]
   // }
 }
-
 
 export function parse(source: string, context: Context) {
   let program: any
