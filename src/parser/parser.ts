@@ -15,17 +15,21 @@ import {
   BinaryoperatorContext,
   BlockContext,
   DclContext,
+  DclsContext,
   ExprContext,
   FunctionContext,
+  FunprogContext,
   LvalueContext,
   MainContext,
+  MainprogContext,
   MorefunctionsContext,
   ParamsContext,
   PredicateContext,
   ProgramContext,
   StatementContext,
   TypeContext,
-  UnaryoperatorContext
+  UnaryoperatorContext,
+  wlp3Parser
 } from '../lang/wlp3Parser'
 import { wlp3Visitor } from '../lang/wlp3Visitor'
 import { Context, ErrorSeverity, ErrorType, SourceError } from '../types'
@@ -130,22 +134,26 @@ function contextToLocation(ctx: ProgramContext): es.SourceLocation {
 }
 
 class ProgramGenerator implements wlp3Visitor<any> {
-  visitMorefunctions(ctx: MorefunctionsContext): any {
+  visitFunprog(ctx: FunprogContext): any {
     return {
-      type: 'Morefunctions',
-      fun: ctx._fun,
-      prog: ctx._prog
+      type: 'Funprog',
+      fun: this.visit(ctx._fun),
+      prog: this.visit(ctx._prog)
+    }
+  }
+  visitMainprog(ctx: MainprogContext): any {
+    return {
+      type: 'Mainprog',
+      mn: this.visit(ctx._mn)
+    }
+  }
+  visitDcls(ctx: DclsContext): any {
+    return {
+      type: 'Dcls',
+
     }
   }
 
-  visitNumber(ctx: NumberContext): es.Expression {
-    return {
-      type: 'Literal',
-      value: parseInt(ctx.text),
-      raw: ctx.text,
-      loc: contextToLocation(ctx)
-    }
-  }
   visitParentheses(ctx: ParenthesesContext): es.Expression {
     return this.visit(ctx.expression())
   }
@@ -257,9 +265,9 @@ export function parse(source: string, context: Context) {
 
   if (context.variant === 'calc') {
     const inputStream = CharStreams.fromString(source)
-    const lexer = new CalcLexer(inputStream)
+    const lexer = new wlp3Lexer(inputStream)
     const tokenStream = new CommonTokenStream(lexer)
-    const parser = new CalcParser(tokenStream)
+    const parser = new wlp3Parser(tokenStream)
     parser.buildParseTree = true
     try {
       const tree = parser.expression()

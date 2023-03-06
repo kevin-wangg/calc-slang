@@ -3,45 +3,54 @@
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
-import { FunprogContext } from "./wlp3Parser";
-import { MainprogContext } from "./wlp3Parser";
-import { DclsContext } from "./wlp3Parser";
-import { ParamsemptyContext } from "./wlp3Parser";
-import { InttypeContext } from "./wlp3Parser";
-import { BooltypeContext } from "./wlp3Parser";
-import { StringtypeContext } from "./wlp3Parser";
-import { IntstartypeContext } from "./wlp3Parser";
-import { ArglstContext } from "./wlp3Parser";
-import { ArglistemptyContext } from "./wlp3Parser";
+import { StatementListContext } from "./wlp3Parser";
+import { StatementEmptyContext } from "./wlp3Parser";
+import { SingleParamContext } from "./wlp3Parser";
+import { MultiParamContext } from "./wlp3Parser";
+import { FunProgContext } from "./wlp3Parser";
+import { MainProgContext } from "./wlp3Parser";
+import { ParamsListContext } from "./wlp3Parser";
+import { ParamsEmptyContext } from "./wlp3Parser";
+import { IntTypeContext } from "./wlp3Parser";
+import { BoolTypeContext } from "./wlp3Parser";
+import { StringTypeContext } from "./wlp3Parser";
+import { IntStarTypeContext } from "./wlp3Parser";
+import { ArgsListContext } from "./wlp3Parser";
+import { ArgsEmptyContext } from "./wlp3Parser";
+import { SingleArgContext } from "./wlp3Parser";
+import { MultiArgsContext } from "./wlp3Parser";
 import { AssignmentContext } from "./wlp3Parser";
-import { IfstatementContext } from "./wlp3Parser";
-import { WhilestatementContext } from "./wlp3Parser";
+import { IfStatementstatementContext } from "./wlp3Parser";
+import { WhileStatementContext } from "./wlp3Parser";
 import { PrintfstatementContext } from "./wlp3Parser";
-import { DclstatementContext } from "./wlp3Parser";
-import { DclassignmentContext } from "./wlp3Parser";
-import { ReturnstatementContext } from "./wlp3Parser";
-import { FreestatementContext } from "./wlp3Parser";
-import { ExprstatementContext } from "./wlp3Parser";
+import { DclStatementContext } from "./wlp3Parser";
+import { DclAssignmentContext } from "./wlp3Parser";
+import { ReturnStatementContext } from "./wlp3Parser";
+import { FreeStatementContext } from "./wlp3Parser";
+import { ExprStatementContext } from "./wlp3Parser";
 import { IntContext } from "./wlp3Parser";
 import { StringContext } from "./wlp3Parser";
 import { BoolContext } from "./wlp3Parser";
-import { UnopexprContext } from "./wlp3Parser";
-import { BinopexprContext } from "./wlp3Parser";
-import { BinlogexprContext } from "./wlp3Parser";
-import { IdexprContext } from "./wlp3Parser";
-import { FnexprContext } from "./wlp3Parser";
-import { MallocexprContext } from "./wlp3Parser";
-import { StarexprContext } from "./wlp3Parser";
-import { AmpersandexprContext } from "./wlp3Parser";
+import { UnopExprContext } from "./wlp3Parser";
+import { BinopExprContext } from "./wlp3Parser";
+import { BinlogExprContext } from "./wlp3Parser";
+import { IdExprContext } from "./wlp3Parser";
+import { FnExprContext } from "./wlp3Parser";
+import { MallocExprContext } from "./wlp3Parser";
+import { StarExprContext } from "./wlp3Parser";
+import { AmpersandExprContext } from "./wlp3Parser";
 import { ProgramContext } from "./wlp3Parser";
 import { MainContext } from "./wlp3Parser";
 import { FunctionContext } from "./wlp3Parser";
 import { BlockContext } from "./wlp3Parser";
+import { StatementlistContext } from "./wlp3Parser";
 import { ParamsContext } from "./wlp3Parser";
+import { ParamlistContext } from "./wlp3Parser";
 import { DclContext } from "./wlp3Parser";
 import { TypeContext } from "./wlp3Parser";
 import { ExprContext } from "./wlp3Parser";
 import { StatementContext } from "./wlp3Parser";
+import { ArgsContext } from "./wlp3Parser";
 import { ArglistContext } from "./wlp3Parser";
 import { BinaryoperatorContext } from "./wlp3Parser";
 import { BinarylogicalContext } from "./wlp3Parser";
@@ -56,173 +65,251 @@ import { LvalueContext } from "./wlp3Parser";
  */
 export interface wlp3Listener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by the `funprog`
+	 * Enter a parse tree produced by the `StatementList`
+	 * labeled alternative in `wlp3Parser.statementlist`.
+	 * @param ctx the parse tree
+	 */
+	enterStatementList?: (ctx: StatementListContext) => void;
+	/**
+	 * Exit a parse tree produced by the `StatementList`
+	 * labeled alternative in `wlp3Parser.statementlist`.
+	 * @param ctx the parse tree
+	 */
+	exitStatementList?: (ctx: StatementListContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `StatementEmpty`
+	 * labeled alternative in `wlp3Parser.statementlist`.
+	 * @param ctx the parse tree
+	 */
+	enterStatementEmpty?: (ctx: StatementEmptyContext) => void;
+	/**
+	 * Exit a parse tree produced by the `StatementEmpty`
+	 * labeled alternative in `wlp3Parser.statementlist`.
+	 * @param ctx the parse tree
+	 */
+	exitStatementEmpty?: (ctx: StatementEmptyContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `SingleParam`
+	 * labeled alternative in `wlp3Parser.paramlist`.
+	 * @param ctx the parse tree
+	 */
+	enterSingleParam?: (ctx: SingleParamContext) => void;
+	/**
+	 * Exit a parse tree produced by the `SingleParam`
+	 * labeled alternative in `wlp3Parser.paramlist`.
+	 * @param ctx the parse tree
+	 */
+	exitSingleParam?: (ctx: SingleParamContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `MultiParam`
+	 * labeled alternative in `wlp3Parser.paramlist`.
+	 * @param ctx the parse tree
+	 */
+	enterMultiParam?: (ctx: MultiParamContext) => void;
+	/**
+	 * Exit a parse tree produced by the `MultiParam`
+	 * labeled alternative in `wlp3Parser.paramlist`.
+	 * @param ctx the parse tree
+	 */
+	exitMultiParam?: (ctx: MultiParamContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `FunProg`
 	 * labeled alternative in `wlp3Parser.program`.
 	 * @param ctx the parse tree
 	 */
-	enterFunprog?: (ctx: FunprogContext) => void;
+	enterFunProg?: (ctx: FunProgContext) => void;
 	/**
-	 * Exit a parse tree produced by the `funprog`
+	 * Exit a parse tree produced by the `FunProg`
 	 * labeled alternative in `wlp3Parser.program`.
 	 * @param ctx the parse tree
 	 */
-	exitFunprog?: (ctx: FunprogContext) => void;
+	exitFunProg?: (ctx: FunProgContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `mainprog`
+	 * Enter a parse tree produced by the `MainProg`
 	 * labeled alternative in `wlp3Parser.program`.
 	 * @param ctx the parse tree
 	 */
-	enterMainprog?: (ctx: MainprogContext) => void;
+	enterMainProg?: (ctx: MainProgContext) => void;
 	/**
-	 * Exit a parse tree produced by the `mainprog`
+	 * Exit a parse tree produced by the `MainProg`
 	 * labeled alternative in `wlp3Parser.program`.
 	 * @param ctx the parse tree
 	 */
-	exitMainprog?: (ctx: MainprogContext) => void;
+	exitMainProg?: (ctx: MainProgContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `dcls`
+	 * Enter a parse tree produced by the `ParamsList`
 	 * labeled alternative in `wlp3Parser.params`.
 	 * @param ctx the parse tree
 	 */
-	enterDcls?: (ctx: DclsContext) => void;
+	enterParamsList?: (ctx: ParamsListContext) => void;
 	/**
-	 * Exit a parse tree produced by the `dcls`
+	 * Exit a parse tree produced by the `ParamsList`
 	 * labeled alternative in `wlp3Parser.params`.
 	 * @param ctx the parse tree
 	 */
-	exitDcls?: (ctx: DclsContext) => void;
+	exitParamsList?: (ctx: ParamsListContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `paramsempty`
+	 * Enter a parse tree produced by the `ParamsEmpty`
 	 * labeled alternative in `wlp3Parser.params`.
 	 * @param ctx the parse tree
 	 */
-	enterParamsempty?: (ctx: ParamsemptyContext) => void;
+	enterParamsEmpty?: (ctx: ParamsEmptyContext) => void;
 	/**
-	 * Exit a parse tree produced by the `paramsempty`
+	 * Exit a parse tree produced by the `ParamsEmpty`
 	 * labeled alternative in `wlp3Parser.params`.
 	 * @param ctx the parse tree
 	 */
-	exitParamsempty?: (ctx: ParamsemptyContext) => void;
+	exitParamsEmpty?: (ctx: ParamsEmptyContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `inttype`
+	 * Enter a parse tree produced by the `IntType`
 	 * labeled alternative in `wlp3Parser.type`.
 	 * @param ctx the parse tree
 	 */
-	enterInttype?: (ctx: InttypeContext) => void;
+	enterIntType?: (ctx: IntTypeContext) => void;
 	/**
-	 * Exit a parse tree produced by the `inttype`
+	 * Exit a parse tree produced by the `IntType`
 	 * labeled alternative in `wlp3Parser.type`.
 	 * @param ctx the parse tree
 	 */
-	exitInttype?: (ctx: InttypeContext) => void;
+	exitIntType?: (ctx: IntTypeContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `booltype`
+	 * Enter a parse tree produced by the `BoolType`
 	 * labeled alternative in `wlp3Parser.type`.
 	 * @param ctx the parse tree
 	 */
-	enterBooltype?: (ctx: BooltypeContext) => void;
+	enterBoolType?: (ctx: BoolTypeContext) => void;
 	/**
-	 * Exit a parse tree produced by the `booltype`
+	 * Exit a parse tree produced by the `BoolType`
 	 * labeled alternative in `wlp3Parser.type`.
 	 * @param ctx the parse tree
 	 */
-	exitBooltype?: (ctx: BooltypeContext) => void;
+	exitBoolType?: (ctx: BoolTypeContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `stringtype`
+	 * Enter a parse tree produced by the `StringType`
 	 * labeled alternative in `wlp3Parser.type`.
 	 * @param ctx the parse tree
 	 */
-	enterStringtype?: (ctx: StringtypeContext) => void;
+	enterStringType?: (ctx: StringTypeContext) => void;
 	/**
-	 * Exit a parse tree produced by the `stringtype`
+	 * Exit a parse tree produced by the `StringType`
 	 * labeled alternative in `wlp3Parser.type`.
 	 * @param ctx the parse tree
 	 */
-	exitStringtype?: (ctx: StringtypeContext) => void;
+	exitStringType?: (ctx: StringTypeContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `intstartype`
+	 * Enter a parse tree produced by the `IntStarType`
 	 * labeled alternative in `wlp3Parser.type`.
 	 * @param ctx the parse tree
 	 */
-	enterIntstartype?: (ctx: IntstartypeContext) => void;
+	enterIntStarType?: (ctx: IntStarTypeContext) => void;
 	/**
-	 * Exit a parse tree produced by the `intstartype`
+	 * Exit a parse tree produced by the `IntStarType`
 	 * labeled alternative in `wlp3Parser.type`.
 	 * @param ctx the parse tree
 	 */
-	exitIntstartype?: (ctx: IntstartypeContext) => void;
+	exitIntStarType?: (ctx: IntStarTypeContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `arglst`
+	 * Enter a parse tree produced by the `ArgsList`
+	 * labeled alternative in `wlp3Parser.args`.
+	 * @param ctx the parse tree
+	 */
+	enterArgsList?: (ctx: ArgsListContext) => void;
+	/**
+	 * Exit a parse tree produced by the `ArgsList`
+	 * labeled alternative in `wlp3Parser.args`.
+	 * @param ctx the parse tree
+	 */
+	exitArgsList?: (ctx: ArgsListContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `ArgsEmpty`
+	 * labeled alternative in `wlp3Parser.args`.
+	 * @param ctx the parse tree
+	 */
+	enterArgsEmpty?: (ctx: ArgsEmptyContext) => void;
+	/**
+	 * Exit a parse tree produced by the `ArgsEmpty`
+	 * labeled alternative in `wlp3Parser.args`.
+	 * @param ctx the parse tree
+	 */
+	exitArgsEmpty?: (ctx: ArgsEmptyContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `SingleArg`
 	 * labeled alternative in `wlp3Parser.arglist`.
 	 * @param ctx the parse tree
 	 */
-	enterArglst?: (ctx: ArglstContext) => void;
+	enterSingleArg?: (ctx: SingleArgContext) => void;
 	/**
-	 * Exit a parse tree produced by the `arglst`
+	 * Exit a parse tree produced by the `SingleArg`
 	 * labeled alternative in `wlp3Parser.arglist`.
 	 * @param ctx the parse tree
 	 */
-	exitArglst?: (ctx: ArglstContext) => void;
+	exitSingleArg?: (ctx: SingleArgContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `arglistempty`
+	 * Enter a parse tree produced by the `MultiArgs`
 	 * labeled alternative in `wlp3Parser.arglist`.
 	 * @param ctx the parse tree
 	 */
-	enterArglistempty?: (ctx: ArglistemptyContext) => void;
+	enterMultiArgs?: (ctx: MultiArgsContext) => void;
 	/**
-	 * Exit a parse tree produced by the `arglistempty`
+	 * Exit a parse tree produced by the `MultiArgs`
 	 * labeled alternative in `wlp3Parser.arglist`.
 	 * @param ctx the parse tree
 	 */
-	exitArglistempty?: (ctx: ArglistemptyContext) => void;
+	exitMultiArgs?: (ctx: MultiArgsContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `assignment`
+	 * Enter a parse tree produced by the `Assignment`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
 	enterAssignment?: (ctx: AssignmentContext) => void;
 	/**
-	 * Exit a parse tree produced by the `assignment`
+	 * Exit a parse tree produced by the `Assignment`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
 	exitAssignment?: (ctx: AssignmentContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `ifstatement`
+	 * Enter a parse tree produced by the `IfStatementstatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	enterIfstatement?: (ctx: IfstatementContext) => void;
+	enterIfStatementstatement?: (ctx: IfStatementstatementContext) => void;
 	/**
-	 * Exit a parse tree produced by the `ifstatement`
+	 * Exit a parse tree produced by the `IfStatementstatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	exitIfstatement?: (ctx: IfstatementContext) => void;
+	exitIfStatementstatement?: (ctx: IfStatementstatementContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `whilestatement`
+	 * Enter a parse tree produced by the `WhileStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	enterWhilestatement?: (ctx: WhilestatementContext) => void;
+	enterWhileStatement?: (ctx: WhileStatementContext) => void;
 	/**
-	 * Exit a parse tree produced by the `whilestatement`
+	 * Exit a parse tree produced by the `WhileStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	exitWhilestatement?: (ctx: WhilestatementContext) => void;
+	exitWhileStatement?: (ctx: WhileStatementContext) => void;
 
 	/**
 	 * Enter a parse tree produced by the `printfstatement`
@@ -238,212 +325,212 @@ export interface wlp3Listener extends ParseTreeListener {
 	exitPrintfstatement?: (ctx: PrintfstatementContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `dclstatement`
+	 * Enter a parse tree produced by the `DclStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	enterDclstatement?: (ctx: DclstatementContext) => void;
+	enterDclStatement?: (ctx: DclStatementContext) => void;
 	/**
-	 * Exit a parse tree produced by the `dclstatement`
+	 * Exit a parse tree produced by the `DclStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	exitDclstatement?: (ctx: DclstatementContext) => void;
+	exitDclStatement?: (ctx: DclStatementContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `dclassignment`
+	 * Enter a parse tree produced by the `DclAssignment`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	enterDclassignment?: (ctx: DclassignmentContext) => void;
+	enterDclAssignment?: (ctx: DclAssignmentContext) => void;
 	/**
-	 * Exit a parse tree produced by the `dclassignment`
+	 * Exit a parse tree produced by the `DclAssignment`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	exitDclassignment?: (ctx: DclassignmentContext) => void;
+	exitDclAssignment?: (ctx: DclAssignmentContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `returnstatement`
+	 * Enter a parse tree produced by the `ReturnStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	enterReturnstatement?: (ctx: ReturnstatementContext) => void;
+	enterReturnStatement?: (ctx: ReturnStatementContext) => void;
 	/**
-	 * Exit a parse tree produced by the `returnstatement`
+	 * Exit a parse tree produced by the `ReturnStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	exitReturnstatement?: (ctx: ReturnstatementContext) => void;
+	exitReturnStatement?: (ctx: ReturnStatementContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `freestatement`
+	 * Enter a parse tree produced by the `FreeStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	enterFreestatement?: (ctx: FreestatementContext) => void;
+	enterFreeStatement?: (ctx: FreeStatementContext) => void;
 	/**
-	 * Exit a parse tree produced by the `freestatement`
+	 * Exit a parse tree produced by the `FreeStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	exitFreestatement?: (ctx: FreestatementContext) => void;
+	exitFreeStatement?: (ctx: FreeStatementContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `exprstatement`
+	 * Enter a parse tree produced by the `ExprStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	enterExprstatement?: (ctx: ExprstatementContext) => void;
+	enterExprStatement?: (ctx: ExprStatementContext) => void;
 	/**
-	 * Exit a parse tree produced by the `exprstatement`
+	 * Exit a parse tree produced by the `ExprStatement`
 	 * labeled alternative in `wlp3Parser.statement`.
 	 * @param ctx the parse tree
 	 */
-	exitExprstatement?: (ctx: ExprstatementContext) => void;
+	exitExprStatement?: (ctx: ExprStatementContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `int`
+	 * Enter a parse tree produced by the `Int`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
 	enterInt?: (ctx: IntContext) => void;
 	/**
-	 * Exit a parse tree produced by the `int`
+	 * Exit a parse tree produced by the `Int`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
 	exitInt?: (ctx: IntContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `string`
+	 * Enter a parse tree produced by the `String`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
 	enterString?: (ctx: StringContext) => void;
 	/**
-	 * Exit a parse tree produced by the `string`
+	 * Exit a parse tree produced by the `String`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
 	exitString?: (ctx: StringContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `bool`
+	 * Enter a parse tree produced by the `Bool`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
 	enterBool?: (ctx: BoolContext) => void;
 	/**
-	 * Exit a parse tree produced by the `bool`
+	 * Exit a parse tree produced by the `Bool`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
 	exitBool?: (ctx: BoolContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `unopexpr`
+	 * Enter a parse tree produced by the `UnopExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	enterUnopexpr?: (ctx: UnopexprContext) => void;
+	enterUnopExpr?: (ctx: UnopExprContext) => void;
 	/**
-	 * Exit a parse tree produced by the `unopexpr`
+	 * Exit a parse tree produced by the `UnopExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	exitUnopexpr?: (ctx: UnopexprContext) => void;
+	exitUnopExpr?: (ctx: UnopExprContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `binopexpr`
+	 * Enter a parse tree produced by the `BinopExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	enterBinopexpr?: (ctx: BinopexprContext) => void;
+	enterBinopExpr?: (ctx: BinopExprContext) => void;
 	/**
-	 * Exit a parse tree produced by the `binopexpr`
+	 * Exit a parse tree produced by the `BinopExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	exitBinopexpr?: (ctx: BinopexprContext) => void;
+	exitBinopExpr?: (ctx: BinopExprContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `binlogexpr`
+	 * Enter a parse tree produced by the `BinlogExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	enterBinlogexpr?: (ctx: BinlogexprContext) => void;
+	enterBinlogExpr?: (ctx: BinlogExprContext) => void;
 	/**
-	 * Exit a parse tree produced by the `binlogexpr`
+	 * Exit a parse tree produced by the `BinlogExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	exitBinlogexpr?: (ctx: BinlogexprContext) => void;
+	exitBinlogExpr?: (ctx: BinlogExprContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `idexpr`
+	 * Enter a parse tree produced by the `IdExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	enterIdexpr?: (ctx: IdexprContext) => void;
+	enterIdExpr?: (ctx: IdExprContext) => void;
 	/**
-	 * Exit a parse tree produced by the `idexpr`
+	 * Exit a parse tree produced by the `IdExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	exitIdexpr?: (ctx: IdexprContext) => void;
+	exitIdExpr?: (ctx: IdExprContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `fnexpr`
+	 * Enter a parse tree produced by the `FnExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	enterFnexpr?: (ctx: FnexprContext) => void;
+	enterFnExpr?: (ctx: FnExprContext) => void;
 	/**
-	 * Exit a parse tree produced by the `fnexpr`
+	 * Exit a parse tree produced by the `FnExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	exitFnexpr?: (ctx: FnexprContext) => void;
+	exitFnExpr?: (ctx: FnExprContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `mallocexpr`
+	 * Enter a parse tree produced by the `MallocExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	enterMallocexpr?: (ctx: MallocexprContext) => void;
+	enterMallocExpr?: (ctx: MallocExprContext) => void;
 	/**
-	 * Exit a parse tree produced by the `mallocexpr`
+	 * Exit a parse tree produced by the `MallocExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	exitMallocexpr?: (ctx: MallocexprContext) => void;
+	exitMallocExpr?: (ctx: MallocExprContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `starexpr`
+	 * Enter a parse tree produced by the `StarExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	enterStarexpr?: (ctx: StarexprContext) => void;
+	enterStarExpr?: (ctx: StarExprContext) => void;
 	/**
-	 * Exit a parse tree produced by the `starexpr`
+	 * Exit a parse tree produced by the `StarExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	exitStarexpr?: (ctx: StarexprContext) => void;
+	exitStarExpr?: (ctx: StarExprContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `ampersandexpr`
+	 * Enter a parse tree produced by the `AmpersandExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	enterAmpersandexpr?: (ctx: AmpersandexprContext) => void;
+	enterAmpersandExpr?: (ctx: AmpersandExprContext) => void;
 	/**
-	 * Exit a parse tree produced by the `ampersandexpr`
+	 * Exit a parse tree produced by the `AmpersandExpr`
 	 * labeled alternative in `wlp3Parser.expr`.
 	 * @param ctx the parse tree
 	 */
-	exitAmpersandexpr?: (ctx: AmpersandexprContext) => void;
+	exitAmpersandExpr?: (ctx: AmpersandExprContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `wlp3Parser.program`.
@@ -490,6 +577,17 @@ export interface wlp3Listener extends ParseTreeListener {
 	exitBlock?: (ctx: BlockContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `wlp3Parser.statementlist`.
+	 * @param ctx the parse tree
+	 */
+	enterStatementlist?: (ctx: StatementlistContext) => void;
+	/**
+	 * Exit a parse tree produced by `wlp3Parser.statementlist`.
+	 * @param ctx the parse tree
+	 */
+	exitStatementlist?: (ctx: StatementlistContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `wlp3Parser.params`.
 	 * @param ctx the parse tree
 	 */
@@ -499,6 +597,17 @@ export interface wlp3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitParams?: (ctx: ParamsContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `wlp3Parser.paramlist`.
+	 * @param ctx the parse tree
+	 */
+	enterParamlist?: (ctx: ParamlistContext) => void;
+	/**
+	 * Exit a parse tree produced by `wlp3Parser.paramlist`.
+	 * @param ctx the parse tree
+	 */
+	exitParamlist?: (ctx: ParamlistContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `wlp3Parser.dcl`.
@@ -543,6 +652,17 @@ export interface wlp3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitStatement?: (ctx: StatementContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `wlp3Parser.args`.
+	 * @param ctx the parse tree
+	 */
+	enterArgs?: (ctx: ArgsContext) => void;
+	/**
+	 * Exit a parse tree produced by `wlp3Parser.args`.
+	 * @param ctx the parse tree
+	 */
+	exitArgs?: (ctx: ArgsContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `wlp3Parser.arglist`.

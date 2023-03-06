@@ -1,44 +1,53 @@
 grammar wlp3;		
-program: fun=function prog=program # funprog
-       | mn=main # mainprog
+program: fun=function prog=program # FunProg
+       | mn=main # MainProg
        ;
 main:   'int' 'main' '(' ')' blk=block ;
 function : t=type id=ID '(' prms=params ')' blk=block ;
-block: '{' stmnts=statement* '}' ;
-params: d=dcl (',' ds=dcl)* # dcls
-      | <empty> # paramsempty
+block: '{' stmnts=statementlist '}' ;
+statementlist: first=statement rest=statementlist # StatementList
+    | <empty> # StatementEmpty
+    ;
+params: list=paramlist # ParamsList
+      | <empty> # ParamsEmpty
       ;
-dcl: type ID;
-type: 'int' # inttype
-    | 'bool' # booltype
-    | 'string' # stringtype
-    | 'int*' #intstartype
+paramlist: first=dcl # SingleParam
+    | first=dcl ',' rest=paramlist # MultiParam
+        ;
+dcl: t=type id=ID;
+type: 'int' # IntType
+    | 'bool' # BoolType
+    | 'string' # StringType
+    | 'int*' # IntStarType
     ;
-expr: INT # int
-    | STRING # string
-    | BOOL # bool
-	| unop=unaryoperator first=expr # unopexpr
-	| first=expr binop=binaryoperator second=expr #binopexpr
-	| first=expr binlog=binarylogical second=expr #binlogexpr
-	| id=ID # idexpr
-	| id=ID '(' arglst=arglist ')' # fnexpr
-	| 'malloc' '(' first=expr ')' # mallocexpr
-	| '*' first=expr # starexpr
-	| '&' first=expr # ampersandexpr
+expr: INT # Int
+    | STRING # String
+    | BOOL # Bool
+	| unop=unaryoperator first=expr # UnopExpr
+	| first=expr binop=binaryoperator second=expr #BinopExpr
+	| first=expr binlog=binarylogical second=expr #BinlogExpr
+	| id=ID # IdExpr
+	| id=ID '(' arglst=args ')' # FnExpr
+	| 'malloc' '(' first=expr ')' # MallocExpr
+	| '*' first=expr # StarExpr
+	| '&' first=expr # AmpersandExpr
     ;
-statement: lv=lvalue '=' val=expr ';' # assignment
-       | 'if' '(' pred=predicate ')' cons=block 'else' alt=block # ifstatement
-	     | 'while' '(' pred=predicate ')' body=block # whilestatement
-	     | 'printf' '(' body=expr ')' ';' # printfstatement
-	     | d=dcl ';' # dclstatement
-	     | d=dcl '=' val=expr ';' # dclassignment
-	     | 'return' val=expr ';' # returnstatement
-	     | 'free' '(' val=expr ')' ';' # freestatement
-       | val=expr ';'# exprstatement
+statement: lv=lvalue '=' val=expr ';' # Assignment
+       | 'if' '(' pred=predicate ')' cons=block 'else' alt=block # IfStatementstatement
+	     | 'while' '(' pred=predicate ')' body=block # WhileStatement
+	     | 'printf' '(' body=expr ')' ';' # PrintfStatement
+	     | d=dcl ';' # DclStatement
+	     | d=dcl '=' val=expr ';' # DclAssignment
+	     | 'return' val=expr ';' # ReturnStatement
+	     | 'free' '(' val=expr ')' ';' # FreeStatement
+       | val=expr ';'# ExprStatement
        ;
-arglist: arg=expr (',' args=expr)* # arglst
-	   | <empty> # arglistempty
-     ;
+args: list=arglist # ArgsList
+    | <empty> # ArgsEmpty
+    ;
+arglist: first=expr # SingleArg
+    | first=expr ',' rest=arglist # MultiArgs
+    ;
 binaryoperator: '+'
                | '-'
                | '*'
@@ -59,5 +68,5 @@ WS      : [ \t\r\n]+ -> skip ;
 INT     : [0-9]+ ;
 STRING  : '"'[a-zA-Z0-9]+'"' ;
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;
-
 BOOL    : 'true' | 'false';
+

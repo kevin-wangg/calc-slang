@@ -68,22 +68,25 @@ export class wlp3Parser extends Parser {
 	public static readonly RULE_main = 1;
 	public static readonly RULE_function = 2;
 	public static readonly RULE_block = 3;
-	public static readonly RULE_params = 4;
-	public static readonly RULE_dcl = 5;
-	public static readonly RULE_type = 6;
-	public static readonly RULE_expr = 7;
-	public static readonly RULE_statement = 8;
-	public static readonly RULE_arglist = 9;
-	public static readonly RULE_binaryoperator = 10;
-	public static readonly RULE_binarylogical = 11;
-	public static readonly RULE_unaryoperator = 12;
-	public static readonly RULE_predicate = 13;
-	public static readonly RULE_lvalue = 14;
+	public static readonly RULE_statementlist = 4;
+	public static readonly RULE_params = 5;
+	public static readonly RULE_paramlist = 6;
+	public static readonly RULE_dcl = 7;
+	public static readonly RULE_type = 8;
+	public static readonly RULE_expr = 9;
+	public static readonly RULE_statement = 10;
+	public static readonly RULE_args = 11;
+	public static readonly RULE_arglist = 12;
+	public static readonly RULE_binaryoperator = 13;
+	public static readonly RULE_binarylogical = 14;
+	public static readonly RULE_unaryoperator = 15;
+	public static readonly RULE_predicate = 16;
+	public static readonly RULE_lvalue = 17;
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
-		"program", "main", "function", "block", "params", "dcl", "type", "expr", 
-		"statement", "arglist", "binaryoperator", "binarylogical", "unaryoperator", 
-		"predicate", "lvalue",
+		"program", "main", "function", "block", "statementlist", "params", "paramlist", 
+		"dcl", "type", "expr", "statement", "args", "arglist", "binaryoperator", 
+		"binarylogical", "unaryoperator", "predicate", "lvalue",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
@@ -131,26 +134,26 @@ export class wlp3Parser extends Parser {
 		let _localctx: ProgramContext = new ProgramContext(this._ctx, this.state);
 		this.enterRule(_localctx, 0, wlp3Parser.RULE_program);
 		try {
-			this.state = 34;
+			this.state = 40;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 0, this._ctx) ) {
 			case 1:
-				_localctx = new FunprogContext(_localctx);
+				_localctx = new FunProgContext(_localctx);
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 30;
-				(_localctx as FunprogContext)._fun = this.function();
-				this.state = 31;
-				(_localctx as FunprogContext)._prog = this.program();
+				this.state = 36;
+				(_localctx as FunProgContext)._fun = this.function();
+				this.state = 37;
+				(_localctx as FunProgContext)._prog = this.program();
 				}
 				break;
 
 			case 2:
-				_localctx = new MainprogContext(_localctx);
+				_localctx = new MainProgContext(_localctx);
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 33;
-				(_localctx as MainprogContext)._mn = this.main();
+				this.state = 39;
+				(_localctx as MainProgContext)._mn = this.main();
 				}
 				break;
 			}
@@ -176,15 +179,15 @@ export class wlp3Parser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 36;
+			this.state = 42;
 			this.match(wlp3Parser.T__0);
-			this.state = 37;
+			this.state = 43;
 			this.match(wlp3Parser.T__1);
-			this.state = 38;
+			this.state = 44;
 			this.match(wlp3Parser.T__2);
-			this.state = 39;
+			this.state = 45;
 			this.match(wlp3Parser.T__3);
-			this.state = 40;
+			this.state = 46;
 			_localctx._blk = this.block();
 			}
 		}
@@ -209,17 +212,17 @@ export class wlp3Parser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 42;
+			this.state = 48;
 			_localctx._t = this.type();
-			this.state = 43;
+			this.state = 49;
 			_localctx._id = this.match(wlp3Parser.ID);
-			this.state = 44;
+			this.state = 50;
 			this.match(wlp3Parser.T__2);
-			this.state = 45;
+			this.state = 51;
 			_localctx._prms = this.params();
-			this.state = 46;
+			this.state = 52;
 			this.match(wlp3Parser.T__3);
-			this.state = 47;
+			this.state = 53;
 			_localctx._blk = this.block();
 			}
 		}
@@ -241,27 +244,14 @@ export class wlp3Parser extends Parser {
 	public block(): BlockContext {
 		let _localctx: BlockContext = new BlockContext(this._ctx, this.state);
 		this.enterRule(_localctx, 6, wlp3Parser.RULE_block);
-		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 49;
+			this.state = 55;
 			this.match(wlp3Parser.T__4);
-			this.state = 53;
-			this._errHandler.sync(this);
-			_la = this._input.LA(1);
-			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << wlp3Parser.T__0) | (1 << wlp3Parser.T__2) | (1 << wlp3Parser.T__7) | (1 << wlp3Parser.T__8) | (1 << wlp3Parser.T__9) | (1 << wlp3Parser.T__10) | (1 << wlp3Parser.T__11) | (1 << wlp3Parser.T__12) | (1 << wlp3Parser.T__15) | (1 << wlp3Parser.T__17) | (1 << wlp3Parser.T__18) | (1 << wlp3Parser.T__19) | (1 << wlp3Parser.T__20) | (1 << wlp3Parser.T__30))) !== 0) || ((((_la - 33)) & ~0x1F) === 0 && ((1 << (_la - 33)) & ((1 << (wlp3Parser.INT - 33)) | (1 << (wlp3Parser.STRING - 33)) | (1 << (wlp3Parser.ID - 33)) | (1 << (wlp3Parser.BOOL - 33)))) !== 0)) {
-				{
-				{
-				this.state = 50;
-				_localctx._stmnts = this.statement();
-				}
-				}
-				this.state = 55;
-				this._errHandler.sync(this);
-				_la = this._input.LA(1);
-			}
 			this.state = 56;
+			_localctx._stmnts = this.statementlist();
+			this.state = 57;
 			this.match(wlp3Parser.T__5);
 			}
 		}
@@ -280,43 +270,42 @@ export class wlp3Parser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public params(): ParamsContext {
-		let _localctx: ParamsContext = new ParamsContext(this._ctx, this.state);
-		this.enterRule(_localctx, 8, wlp3Parser.RULE_params);
-		let _la: number;
+	public statementlist(): StatementlistContext {
+		let _localctx: StatementlistContext = new StatementlistContext(this._ctx, this.state);
+		this.enterRule(_localctx, 8, wlp3Parser.RULE_statementlist);
 		try {
-			this.state = 67;
+			this.state = 63;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case wlp3Parser.T__0:
+			case wlp3Parser.T__2:
 			case wlp3Parser.T__7:
 			case wlp3Parser.T__8:
 			case wlp3Parser.T__9:
-				_localctx = new DclsContext(_localctx);
+			case wlp3Parser.T__10:
+			case wlp3Parser.T__11:
+			case wlp3Parser.T__12:
+			case wlp3Parser.T__15:
+			case wlp3Parser.T__17:
+			case wlp3Parser.T__18:
+			case wlp3Parser.T__19:
+			case wlp3Parser.T__20:
+			case wlp3Parser.T__30:
+			case wlp3Parser.INT:
+			case wlp3Parser.STRING:
+			case wlp3Parser.ID:
+			case wlp3Parser.BOOL:
+				_localctx = new StatementListContext(_localctx);
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 58;
-				(_localctx as DclsContext)._d = this.dcl();
-				this.state = 63;
-				this._errHandler.sync(this);
-				_la = this._input.LA(1);
-				while (_la === wlp3Parser.T__6) {
-					{
-					{
-					this.state = 59;
-					this.match(wlp3Parser.T__6);
-					this.state = 60;
-					(_localctx as DclsContext)._ds = this.dcl();
-					}
-					}
-					this.state = 65;
-					this._errHandler.sync(this);
-					_la = this._input.LA(1);
-				}
+				this.state = 59;
+				(_localctx as StatementListContext)._first = this.statement();
+				this.state = 60;
+				(_localctx as StatementListContext)._rest = this.statementlist();
 				}
 				break;
-			case wlp3Parser.T__3:
-				_localctx = new ParamsemptyContext(_localctx);
+			case wlp3Parser.T__5:
+				_localctx = new StatementEmptyContext(_localctx);
 				this.enterOuterAlt(_localctx, 2);
 				// tslint:disable-next-line:no-empty
 				{
@@ -341,16 +330,105 @@ export class wlp3Parser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
+	public params(): ParamsContext {
+		let _localctx: ParamsContext = new ParamsContext(this._ctx, this.state);
+		this.enterRule(_localctx, 10, wlp3Parser.RULE_params);
+		try {
+			this.state = 67;
+			this._errHandler.sync(this);
+			switch (this._input.LA(1)) {
+			case wlp3Parser.T__0:
+			case wlp3Parser.T__7:
+			case wlp3Parser.T__8:
+			case wlp3Parser.T__9:
+				_localctx = new ParamsListContext(_localctx);
+				this.enterOuterAlt(_localctx, 1);
+				{
+				this.state = 65;
+				(_localctx as ParamsListContext)._list = this.paramlist();
+				}
+				break;
+			case wlp3Parser.T__3:
+				_localctx = new ParamsEmptyContext(_localctx);
+				this.enterOuterAlt(_localctx, 2);
+				// tslint:disable-next-line:no-empty
+				{
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public paramlist(): ParamlistContext {
+		let _localctx: ParamlistContext = new ParamlistContext(this._ctx, this.state);
+		this.enterRule(_localctx, 12, wlp3Parser.RULE_paramlist);
+		try {
+			this.state = 74;
+			this._errHandler.sync(this);
+			switch ( this.interpreter.adaptivePredict(this._input, 3, this._ctx) ) {
+			case 1:
+				_localctx = new SingleParamContext(_localctx);
+				this.enterOuterAlt(_localctx, 1);
+				{
+				this.state = 69;
+				(_localctx as SingleParamContext)._first = this.dcl();
+				}
+				break;
+
+			case 2:
+				_localctx = new MultiParamContext(_localctx);
+				this.enterOuterAlt(_localctx, 2);
+				{
+				this.state = 70;
+				(_localctx as MultiParamContext)._first = this.dcl();
+				this.state = 71;
+				this.match(wlp3Parser.T__6);
+				this.state = 72;
+				(_localctx as MultiParamContext)._rest = this.paramlist();
+				}
+				break;
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
 	public dcl(): DclContext {
 		let _localctx: DclContext = new DclContext(this._ctx, this.state);
-		this.enterRule(_localctx, 10, wlp3Parser.RULE_dcl);
+		this.enterRule(_localctx, 14, wlp3Parser.RULE_dcl);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 69;
-			this.type();
-			this.state = 70;
-			this.match(wlp3Parser.ID);
+			this.state = 76;
+			_localctx._t = this.type();
+			this.state = 77;
+			_localctx._id = this.match(wlp3Parser.ID);
 			}
 		}
 		catch (re) {
@@ -370,40 +448,40 @@ export class wlp3Parser extends Parser {
 	// @RuleVersion(0)
 	public type(): TypeContext {
 		let _localctx: TypeContext = new TypeContext(this._ctx, this.state);
-		this.enterRule(_localctx, 12, wlp3Parser.RULE_type);
+		this.enterRule(_localctx, 16, wlp3Parser.RULE_type);
 		try {
-			this.state = 76;
+			this.state = 83;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case wlp3Parser.T__0:
-				_localctx = new InttypeContext(_localctx);
+				_localctx = new IntTypeContext(_localctx);
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 72;
+				this.state = 79;
 				this.match(wlp3Parser.T__0);
 				}
 				break;
 			case wlp3Parser.T__7:
-				_localctx = new BooltypeContext(_localctx);
+				_localctx = new BoolTypeContext(_localctx);
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 73;
+				this.state = 80;
 				this.match(wlp3Parser.T__7);
 				}
 				break;
 			case wlp3Parser.T__8:
-				_localctx = new StringtypeContext(_localctx);
+				_localctx = new StringTypeContext(_localctx);
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 74;
+				this.state = 81;
 				this.match(wlp3Parser.T__8);
 				}
 				break;
 			case wlp3Parser.T__9:
-				_localctx = new IntstartypeContext(_localctx);
+				_localctx = new IntStarTypeContext(_localctx);
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 75;
+				this.state = 82;
 				this.match(wlp3Parser.T__9);
 				}
 				break;
@@ -438,13 +516,13 @@ export class wlp3Parser extends Parser {
 		let _parentState: number = this.state;
 		let _localctx: ExprContext = new ExprContext(this._ctx, _parentState);
 		let _prevctx: ExprContext = _localctx;
-		let _startState: number = 14;
-		this.enterRecursionRule(_localctx, 14, wlp3Parser.RULE_expr, _p);
+		let _startState: number = 18;
+		this.enterRecursionRule(_localctx, 18, wlp3Parser.RULE_expr, _p);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 100;
+			this.state = 107;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 5, this._ctx) ) {
 			case 1:
@@ -453,7 +531,7 @@ export class wlp3Parser extends Parser {
 				this._ctx = _localctx;
 				_prevctx = _localctx;
 
-				this.state = 79;
+				this.state = 86;
 				this.match(wlp3Parser.INT);
 				}
 				break;
@@ -463,7 +541,7 @@ export class wlp3Parser extends Parser {
 				_localctx = new StringContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 80;
+				this.state = 87;
 				this.match(wlp3Parser.STRING);
 				}
 				break;
@@ -473,91 +551,91 @@ export class wlp3Parser extends Parser {
 				_localctx = new BoolContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 81;
+				this.state = 88;
 				this.match(wlp3Parser.BOOL);
 				}
 				break;
 
 			case 4:
 				{
-				_localctx = new UnopexprContext(_localctx);
+				_localctx = new UnopExprContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 82;
-				(_localctx as UnopexprContext)._unop = this.unaryoperator();
-				this.state = 83;
-				(_localctx as UnopexprContext)._first = this.expr(8);
+				this.state = 89;
+				(_localctx as UnopExprContext)._unop = this.unaryoperator();
+				this.state = 90;
+				(_localctx as UnopExprContext)._first = this.expr(8);
 				}
 				break;
 
 			case 5:
 				{
-				_localctx = new IdexprContext(_localctx);
+				_localctx = new IdExprContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 85;
-				(_localctx as IdexprContext)._id = this.match(wlp3Parser.ID);
+				this.state = 92;
+				(_localctx as IdExprContext)._id = this.match(wlp3Parser.ID);
 				}
 				break;
 
 			case 6:
 				{
-				_localctx = new FnexprContext(_localctx);
+				_localctx = new FnExprContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 86;
-				(_localctx as FnexprContext)._id = this.match(wlp3Parser.ID);
-				this.state = 87;
+				this.state = 93;
+				(_localctx as FnExprContext)._id = this.match(wlp3Parser.ID);
+				this.state = 94;
 				this.match(wlp3Parser.T__2);
-				this.state = 88;
-				(_localctx as FnexprContext)._arglst = this.arglist();
-				this.state = 89;
+				this.state = 95;
+				(_localctx as FnExprContext)._arglst = this.args();
+				this.state = 96;
 				this.match(wlp3Parser.T__3);
 				}
 				break;
 
 			case 7:
 				{
-				_localctx = new MallocexprContext(_localctx);
+				_localctx = new MallocExprContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 91;
+				this.state = 98;
 				this.match(wlp3Parser.T__10);
-				this.state = 92;
+				this.state = 99;
 				this.match(wlp3Parser.T__2);
-				this.state = 93;
-				(_localctx as MallocexprContext)._first = this.expr(0);
-				this.state = 94;
+				this.state = 100;
+				(_localctx as MallocExprContext)._first = this.expr(0);
+				this.state = 101;
 				this.match(wlp3Parser.T__3);
 				}
 				break;
 
 			case 8:
 				{
-				_localctx = new StarexprContext(_localctx);
+				_localctx = new StarExprContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 96;
+				this.state = 103;
 				this.match(wlp3Parser.T__11);
-				this.state = 97;
-				(_localctx as StarexprContext)._first = this.expr(2);
+				this.state = 104;
+				(_localctx as StarExprContext)._first = this.expr(2);
 				}
 				break;
 
 			case 9:
 				{
-				_localctx = new AmpersandexprContext(_localctx);
+				_localctx = new AmpersandExprContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 98;
+				this.state = 105;
 				this.match(wlp3Parser.T__12);
-				this.state = 99;
-				(_localctx as AmpersandexprContext)._first = this.expr(1);
+				this.state = 106;
+				(_localctx as AmpersandExprContext)._first = this.expr(1);
 				}
 				break;
 			}
 			this._ctx._stop = this._input.tryLT(-1);
-			this.state = 112;
+			this.state = 119;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 7, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
@@ -567,44 +645,44 @@ export class wlp3Parser extends Parser {
 					}
 					_prevctx = _localctx;
 					{
-					this.state = 110;
+					this.state = 117;
 					this._errHandler.sync(this);
 					switch ( this.interpreter.adaptivePredict(this._input, 6, this._ctx) ) {
 					case 1:
 						{
-						_localctx = new BinopexprContext(new ExprContext(_parentctx, _parentState));
-						(_localctx as BinopexprContext)._first = _prevctx;
+						_localctx = new BinopExprContext(new ExprContext(_parentctx, _parentState));
+						(_localctx as BinopExprContext)._first = _prevctx;
 						this.pushNewRecursionContext(_localctx, _startState, wlp3Parser.RULE_expr);
-						this.state = 102;
+						this.state = 109;
 						if (!(this.precpred(this._ctx, 7))) {
 							throw this.createFailedPredicateException("this.precpred(this._ctx, 7)");
 						}
-						this.state = 103;
-						(_localctx as BinopexprContext)._binop = this.binaryoperator();
-						this.state = 104;
-						(_localctx as BinopexprContext)._second = this.expr(8);
+						this.state = 110;
+						(_localctx as BinopExprContext)._binop = this.binaryoperator();
+						this.state = 111;
+						(_localctx as BinopExprContext)._second = this.expr(8);
 						}
 						break;
 
 					case 2:
 						{
-						_localctx = new BinlogexprContext(new ExprContext(_parentctx, _parentState));
-						(_localctx as BinlogexprContext)._first = _prevctx;
+						_localctx = new BinlogExprContext(new ExprContext(_parentctx, _parentState));
+						(_localctx as BinlogExprContext)._first = _prevctx;
 						this.pushNewRecursionContext(_localctx, _startState, wlp3Parser.RULE_expr);
-						this.state = 106;
+						this.state = 113;
 						if (!(this.precpred(this._ctx, 6))) {
 							throw this.createFailedPredicateException("this.precpred(this._ctx, 6)");
 						}
-						this.state = 107;
-						(_localctx as BinlogexprContext)._binlog = this.binarylogical();
-						this.state = 108;
-						(_localctx as BinlogexprContext)._second = this.expr(7);
+						this.state = 114;
+						(_localctx as BinlogExprContext)._binlog = this.binarylogical();
+						this.state = 115;
+						(_localctx as BinlogExprContext)._second = this.expr(7);
 						}
 						break;
 					}
 					}
 				}
-				this.state = 114;
+				this.state = 121;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 7, this._ctx);
 			}
@@ -627,61 +705,61 @@ export class wlp3Parser extends Parser {
 	// @RuleVersion(0)
 	public statement(): StatementContext {
 		let _localctx: StatementContext = new StatementContext(this._ctx, this.state);
-		this.enterRule(_localctx, 16, wlp3Parser.RULE_statement);
+		this.enterRule(_localctx, 20, wlp3Parser.RULE_statement);
 		try {
-			this.state = 161;
+			this.state = 168;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 8, this._ctx) ) {
 			case 1:
 				_localctx = new AssignmentContext(_localctx);
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 115;
+				this.state = 122;
 				(_localctx as AssignmentContext)._lv = this.lvalue();
-				this.state = 116;
+				this.state = 123;
 				this.match(wlp3Parser.T__13);
-				this.state = 117;
+				this.state = 124;
 				(_localctx as AssignmentContext)._val = this.expr(0);
-				this.state = 118;
+				this.state = 125;
 				this.match(wlp3Parser.T__14);
 				}
 				break;
 
 			case 2:
-				_localctx = new IfstatementContext(_localctx);
+				_localctx = new IfStatementstatementContext(_localctx);
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 120;
+				this.state = 127;
 				this.match(wlp3Parser.T__15);
-				this.state = 121;
+				this.state = 128;
 				this.match(wlp3Parser.T__2);
-				this.state = 122;
-				(_localctx as IfstatementContext)._pred = this.predicate();
-				this.state = 123;
+				this.state = 129;
+				(_localctx as IfStatementstatementContext)._pred = this.predicate();
+				this.state = 130;
 				this.match(wlp3Parser.T__3);
-				this.state = 124;
-				(_localctx as IfstatementContext)._cons = this.block();
-				this.state = 125;
+				this.state = 131;
+				(_localctx as IfStatementstatementContext)._cons = this.block();
+				this.state = 132;
 				this.match(wlp3Parser.T__16);
-				this.state = 126;
-				(_localctx as IfstatementContext)._alt = this.block();
+				this.state = 133;
+				(_localctx as IfStatementstatementContext)._alt = this.block();
 				}
 				break;
 
 			case 3:
-				_localctx = new WhilestatementContext(_localctx);
+				_localctx = new WhileStatementContext(_localctx);
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 128;
+				this.state = 135;
 				this.match(wlp3Parser.T__17);
-				this.state = 129;
+				this.state = 136;
 				this.match(wlp3Parser.T__2);
-				this.state = 130;
-				(_localctx as WhilestatementContext)._pred = this.predicate();
-				this.state = 131;
+				this.state = 137;
+				(_localctx as WhileStatementContext)._pred = this.predicate();
+				this.state = 138;
 				this.match(wlp3Parser.T__3);
-				this.state = 132;
-				(_localctx as WhilestatementContext)._body = this.block();
+				this.state = 139;
+				(_localctx as WhileStatementContext)._body = this.block();
 				}
 				break;
 
@@ -689,82 +767,82 @@ export class wlp3Parser extends Parser {
 				_localctx = new PrintfstatementContext(_localctx);
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 134;
+				this.state = 141;
 				this.match(wlp3Parser.T__18);
-				this.state = 135;
+				this.state = 142;
 				this.match(wlp3Parser.T__2);
-				this.state = 136;
+				this.state = 143;
 				(_localctx as PrintfstatementContext)._body = this.expr(0);
-				this.state = 137;
+				this.state = 144;
 				this.match(wlp3Parser.T__3);
-				this.state = 138;
+				this.state = 145;
 				this.match(wlp3Parser.T__14);
 				}
 				break;
 
 			case 5:
-				_localctx = new DclstatementContext(_localctx);
+				_localctx = new DclStatementContext(_localctx);
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 140;
-				(_localctx as DclstatementContext)._d = this.dcl();
-				this.state = 141;
+				this.state = 147;
+				(_localctx as DclStatementContext)._d = this.dcl();
+				this.state = 148;
 				this.match(wlp3Parser.T__14);
 				}
 				break;
 
 			case 6:
-				_localctx = new DclassignmentContext(_localctx);
+				_localctx = new DclAssignmentContext(_localctx);
 				this.enterOuterAlt(_localctx, 6);
 				{
-				this.state = 143;
-				(_localctx as DclassignmentContext)._d = this.dcl();
-				this.state = 144;
+				this.state = 150;
+				(_localctx as DclAssignmentContext)._d = this.dcl();
+				this.state = 151;
 				this.match(wlp3Parser.T__13);
-				this.state = 145;
-				(_localctx as DclassignmentContext)._val = this.expr(0);
-				this.state = 146;
+				this.state = 152;
+				(_localctx as DclAssignmentContext)._val = this.expr(0);
+				this.state = 153;
 				this.match(wlp3Parser.T__14);
 				}
 				break;
 
 			case 7:
-				_localctx = new ReturnstatementContext(_localctx);
+				_localctx = new ReturnStatementContext(_localctx);
 				this.enterOuterAlt(_localctx, 7);
 				{
-				this.state = 148;
+				this.state = 155;
 				this.match(wlp3Parser.T__19);
-				this.state = 149;
-				(_localctx as ReturnstatementContext)._val = this.expr(0);
-				this.state = 150;
+				this.state = 156;
+				(_localctx as ReturnStatementContext)._val = this.expr(0);
+				this.state = 157;
 				this.match(wlp3Parser.T__14);
 				}
 				break;
 
 			case 8:
-				_localctx = new FreestatementContext(_localctx);
+				_localctx = new FreeStatementContext(_localctx);
 				this.enterOuterAlt(_localctx, 8);
 				{
-				this.state = 152;
+				this.state = 159;
 				this.match(wlp3Parser.T__20);
-				this.state = 153;
+				this.state = 160;
 				this.match(wlp3Parser.T__2);
-				this.state = 154;
-				(_localctx as FreestatementContext)._val = this.expr(0);
-				this.state = 155;
+				this.state = 161;
+				(_localctx as FreeStatementContext)._val = this.expr(0);
+				this.state = 162;
 				this.match(wlp3Parser.T__3);
-				this.state = 156;
+				this.state = 163;
 				this.match(wlp3Parser.T__14);
 				}
 				break;
 
 			case 9:
-				_localctx = new ExprstatementContext(_localctx);
+				_localctx = new ExprStatementContext(_localctx);
 				this.enterOuterAlt(_localctx, 9);
 				{
-				this.state = 158;
-				(_localctx as ExprstatementContext)._val = this.expr(0);
-				this.state = 159;
+				this.state = 165;
+				(_localctx as ExprStatementContext)._val = this.expr(0);
+				this.state = 166;
 				this.match(wlp3Parser.T__14);
 				}
 				break;
@@ -785,10 +863,9 @@ export class wlp3Parser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public arglist(): ArglistContext {
-		let _localctx: ArglistContext = new ArglistContext(this._ctx, this.state);
-		this.enterRule(_localctx, 18, wlp3Parser.RULE_arglist);
-		let _la: number;
+	public args(): ArgsContext {
+		let _localctx: ArgsContext = new ArgsContext(this._ctx, this.state);
+		this.enterRule(_localctx, 22, wlp3Parser.RULE_args);
 		try {
 			this.state = 172;
 			this._errHandler.sync(this);
@@ -801,31 +878,15 @@ export class wlp3Parser extends Parser {
 			case wlp3Parser.STRING:
 			case wlp3Parser.ID:
 			case wlp3Parser.BOOL:
-				_localctx = new ArglstContext(_localctx);
+				_localctx = new ArgsListContext(_localctx);
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 163;
-				(_localctx as ArglstContext)._arg = this.expr(0);
-				this.state = 168;
-				this._errHandler.sync(this);
-				_la = this._input.LA(1);
-				while (_la === wlp3Parser.T__6) {
-					{
-					{
-					this.state = 164;
-					this.match(wlp3Parser.T__6);
-					this.state = 165;
-					(_localctx as ArglstContext)._args = this.expr(0);
-					}
-					}
-					this.state = 170;
-					this._errHandler.sync(this);
-					_la = this._input.LA(1);
-				}
+				this.state = 170;
+				(_localctx as ArgsListContext)._list = this.arglist();
 				}
 				break;
 			case wlp3Parser.T__3:
-				_localctx = new ArglistemptyContext(_localctx);
+				_localctx = new ArgsEmptyContext(_localctx);
 				this.enterOuterAlt(_localctx, 2);
 				// tslint:disable-next-line:no-empty
 				{
@@ -850,14 +911,59 @@ export class wlp3Parser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
+	public arglist(): ArglistContext {
+		let _localctx: ArglistContext = new ArglistContext(this._ctx, this.state);
+		this.enterRule(_localctx, 24, wlp3Parser.RULE_arglist);
+		try {
+			this.state = 179;
+			this._errHandler.sync(this);
+			switch ( this.interpreter.adaptivePredict(this._input, 10, this._ctx) ) {
+			case 1:
+				_localctx = new SingleArgContext(_localctx);
+				this.enterOuterAlt(_localctx, 1);
+				{
+				this.state = 174;
+				(_localctx as SingleArgContext)._first = this.expr(0);
+				}
+				break;
+
+			case 2:
+				_localctx = new MultiArgsContext(_localctx);
+				this.enterOuterAlt(_localctx, 2);
+				{
+				this.state = 175;
+				(_localctx as MultiArgsContext)._first = this.expr(0);
+				this.state = 176;
+				this.match(wlp3Parser.T__6);
+				this.state = 177;
+				(_localctx as MultiArgsContext)._rest = this.arglist();
+				}
+				break;
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
 	public binaryoperator(): BinaryoperatorContext {
 		let _localctx: BinaryoperatorContext = new BinaryoperatorContext(this._ctx, this.state);
-		this.enterRule(_localctx, 20, wlp3Parser.RULE_binaryoperator);
+		this.enterRule(_localctx, 26, wlp3Parser.RULE_binaryoperator);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 174;
+			this.state = 181;
 			_la = this._input.LA(1);
 			if (!((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << wlp3Parser.T__11) | (1 << wlp3Parser.T__21) | (1 << wlp3Parser.T__22) | (1 << wlp3Parser.T__23) | (1 << wlp3Parser.T__24) | (1 << wlp3Parser.T__25) | (1 << wlp3Parser.T__26) | (1 << wlp3Parser.T__27))) !== 0))) {
 			this._errHandler.recoverInline(this);
@@ -888,12 +994,12 @@ export class wlp3Parser extends Parser {
 	// @RuleVersion(0)
 	public binarylogical(): BinarylogicalContext {
 		let _localctx: BinarylogicalContext = new BinarylogicalContext(this._ctx, this.state);
-		this.enterRule(_localctx, 22, wlp3Parser.RULE_binarylogical);
+		this.enterRule(_localctx, 28, wlp3Parser.RULE_binarylogical);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 176;
+			this.state = 183;
 			_la = this._input.LA(1);
 			if (!(_la === wlp3Parser.T__28 || _la === wlp3Parser.T__29)) {
 			this._errHandler.recoverInline(this);
@@ -924,11 +1030,11 @@ export class wlp3Parser extends Parser {
 	// @RuleVersion(0)
 	public unaryoperator(): UnaryoperatorContext {
 		let _localctx: UnaryoperatorContext = new UnaryoperatorContext(this._ctx, this.state);
-		this.enterRule(_localctx, 24, wlp3Parser.RULE_unaryoperator);
+		this.enterRule(_localctx, 30, wlp3Parser.RULE_unaryoperator);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 178;
+			this.state = 185;
 			this.match(wlp3Parser.T__30);
 			}
 		}
@@ -949,11 +1055,11 @@ export class wlp3Parser extends Parser {
 	// @RuleVersion(0)
 	public predicate(): PredicateContext {
 		let _localctx: PredicateContext = new PredicateContext(this._ctx, this.state);
-		this.enterRule(_localctx, 26, wlp3Parser.RULE_predicate);
+		this.enterRule(_localctx, 32, wlp3Parser.RULE_predicate);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 180;
+			this.state = 187;
 			_localctx._pred = this.expr(0);
 			}
 		}
@@ -974,26 +1080,26 @@ export class wlp3Parser extends Parser {
 	// @RuleVersion(0)
 	public lvalue(): LvalueContext {
 		let _localctx: LvalueContext = new LvalueContext(this._ctx, this.state);
-		this.enterRule(_localctx, 28, wlp3Parser.RULE_lvalue);
+		this.enterRule(_localctx, 34, wlp3Parser.RULE_lvalue);
 		try {
-			this.state = 187;
+			this.state = 194;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case wlp3Parser.ID:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 182;
+				this.state = 189;
 				_localctx._id = this.match(wlp3Parser.ID);
 				}
 				break;
 			case wlp3Parser.T__2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 183;
+				this.state = 190;
 				this.match(wlp3Parser.T__2);
-				this.state = 184;
+				this.state = 191;
 				_localctx._lv = this.lvalue();
-				this.state = 185;
+				this.state = 192;
 				this.match(wlp3Parser.T__3);
 				}
 				break;
@@ -1018,7 +1124,7 @@ export class wlp3Parser extends Parser {
 
 	public sempred(_localctx: RuleContext, ruleIndex: number, predIndex: number): boolean {
 		switch (ruleIndex) {
-		case 7:
+		case 9:
 			return this.expr_sempred(_localctx as ExprContext, predIndex);
 		}
 		return true;
@@ -1035,85 +1141,88 @@ export class wlp3Parser extends Parser {
 	}
 
 	public static readonly _serializedATN: string =
-		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03&\xC0\x04\x02" +
+		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03&\xC7\x04\x02" +
 		"\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07" +
 		"\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r\x04" +
-		"\x0E\t\x0E\x04\x0F\t\x0F\x04\x10\t\x10\x03\x02\x03\x02\x03\x02\x03\x02" +
-		"\x05\x02%\n\x02\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x04" +
-		"\x03\x04\x03\x04\x03\x04\x03\x04\x03\x04\x03\x04\x03\x05\x03\x05\x07\x05" +
-		"6\n\x05\f\x05\x0E\x059\v\x05\x03\x05\x03\x05\x03\x06\x03\x06\x03\x06\x07" +
-		"\x06@\n\x06\f\x06\x0E\x06C\v\x06\x03\x06\x05\x06F\n\x06\x03\x07\x03\x07" +
-		"\x03\x07\x03\b\x03\b\x03\b\x03\b\x05\bO\n\b\x03\t\x03\t\x03\t\x03\t\x03" +
-		"\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03" +
-		"\t\x03\t\x03\t\x03\t\x03\t\x03\t\x05\tg\n\t\x03\t\x03\t\x03\t\x03\t\x03" +
-		"\t\x03\t\x03\t\x03\t\x07\tq\n\t\f\t\x0E\tt\v\t\x03\n\x03\n\x03\n\x03\n" +
-		"\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03" +
-		"\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03" +
-		"\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03" +
-		"\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x05\n\xA4\n\n\x03\v\x03\v\x03\v" +
-		"\x07\v\xA9\n\v\f\v\x0E\v\xAC\v\v\x03\v\x05\v\xAF\n\v\x03\f\x03\f\x03\r" +
-		"\x03\r\x03\x0E\x03\x0E\x03\x0F\x03\x0F\x03\x10\x03\x10\x03\x10\x03\x10" +
-		"\x03\x10\x05\x10\xBE\n\x10\x03\x10\x02\x02\x03\x10\x11\x02\x02\x04\x02" +
-		"\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18" +
-		"\x02\x1A\x02\x1C\x02\x1E\x02\x02\x04\x04\x02\x0E\x0E\x18\x1E\x03\x02\x1F" +
-		" \x02\xCC\x02$\x03\x02\x02\x02\x04&\x03\x02\x02\x02\x06,\x03\x02\x02\x02" +
-		"\b3\x03\x02\x02\x02\nE\x03\x02\x02\x02\fG\x03\x02\x02\x02\x0EN\x03\x02" +
-		"\x02\x02\x10f\x03\x02\x02\x02\x12\xA3\x03\x02\x02\x02\x14\xAE\x03\x02" +
-		"\x02\x02\x16\xB0\x03\x02\x02\x02\x18\xB2\x03\x02\x02\x02\x1A\xB4\x03\x02" +
-		"\x02\x02\x1C\xB6\x03\x02\x02\x02\x1E\xBD\x03\x02\x02\x02 !\x05\x06\x04" +
-		"\x02!\"\x05\x02\x02\x02\"%\x03\x02\x02\x02#%\x05\x04\x03\x02$ \x03\x02" +
-		"\x02\x02$#\x03\x02\x02\x02%\x03\x03\x02\x02\x02&\'\x07\x03\x02\x02\'(" +
-		"\x07\x04\x02\x02()\x07\x05\x02\x02)*\x07\x06\x02\x02*+\x05\b\x05\x02+" +
-		"\x05\x03\x02\x02\x02,-\x05\x0E\b\x02-.\x07%\x02\x02./\x07\x05\x02\x02" +
-		"/0\x05\n\x06\x0201\x07\x06\x02\x0212\x05\b\x05\x022\x07\x03\x02\x02\x02" +
-		"37\x07\x07\x02\x0246\x05\x12\n\x0254\x03\x02\x02\x0269\x03\x02\x02\x02" +
-		"75\x03\x02\x02\x0278\x03\x02\x02\x028:\x03\x02\x02\x0297\x03\x02\x02\x02" +
-		":;\x07\b\x02\x02;\t\x03\x02\x02\x02<A\x05\f\x07\x02=>\x07\t\x02\x02>@" +
-		"\x05\f\x07\x02?=\x03\x02\x02\x02@C\x03\x02\x02\x02A?\x03\x02\x02\x02A" +
-		"B\x03\x02\x02\x02BF\x03\x02\x02\x02CA\x03\x02\x02\x02DF\x03\x02\x02\x02" +
-		"E<\x03\x02\x02\x02ED\x03\x02\x02\x02F\v\x03\x02\x02\x02GH\x05\x0E\b\x02" +
-		"HI\x07%\x02\x02I\r\x03\x02\x02\x02JO\x07\x03\x02\x02KO\x07\n\x02\x02L" +
-		"O\x07\v\x02\x02MO\x07\f\x02\x02NJ\x03\x02\x02\x02NK\x03\x02\x02\x02NL" +
-		"\x03\x02\x02\x02NM\x03\x02\x02\x02O\x0F\x03\x02\x02\x02PQ\b\t\x01\x02" +
-		"Qg\x07#\x02\x02Rg\x07$\x02\x02Sg\x07&\x02\x02TU\x05\x1A\x0E\x02UV\x05" +
-		"\x10\t\nVg\x03\x02\x02\x02Wg\x07%\x02\x02XY\x07%\x02\x02YZ\x07\x05\x02" +
-		"\x02Z[\x05\x14\v\x02[\\\x07\x06\x02\x02\\g\x03\x02\x02\x02]^\x07\r\x02" +
-		"\x02^_\x07\x05\x02\x02_`\x05\x10\t\x02`a\x07\x06\x02\x02ag\x03\x02\x02" +
-		"\x02bc\x07\x0E\x02\x02cg\x05\x10\t\x04de\x07\x0F\x02\x02eg\x05\x10\t\x03" +
-		"fP\x03\x02\x02\x02fR\x03\x02\x02\x02fS\x03\x02\x02\x02fT\x03\x02\x02\x02" +
-		"fW\x03\x02\x02\x02fX\x03\x02\x02\x02f]\x03\x02\x02\x02fb\x03\x02\x02\x02" +
-		"fd\x03\x02\x02\x02gr\x03\x02\x02\x02hi\f\t\x02\x02ij\x05\x16\f\x02jk\x05" +
-		"\x10\t\nkq\x03\x02\x02\x02lm\f\b\x02\x02mn\x05\x18\r\x02no\x05\x10\t\t" +
-		"oq\x03\x02\x02\x02ph\x03\x02\x02\x02pl\x03\x02\x02\x02qt\x03\x02\x02\x02" +
-		"rp\x03\x02\x02\x02rs\x03\x02\x02\x02s\x11\x03\x02\x02\x02tr\x03\x02\x02" +
-		"\x02uv\x05\x1E\x10\x02vw\x07\x10\x02\x02wx\x05\x10\t\x02xy\x07\x11\x02" +
-		"\x02y\xA4\x03\x02\x02\x02z{\x07\x12\x02\x02{|\x07\x05\x02\x02|}\x05\x1C" +
-		"\x0F\x02}~\x07\x06\x02\x02~\x7F\x05\b\x05\x02\x7F\x80\x07\x13\x02\x02" +
-		"\x80\x81\x05\b\x05\x02\x81\xA4\x03\x02\x02\x02\x82\x83\x07\x14\x02\x02" +
-		"\x83\x84\x07\x05\x02\x02\x84\x85\x05\x1C\x0F\x02\x85\x86\x07\x06\x02\x02" +
-		"\x86\x87\x05\b\x05\x02\x87\xA4\x03\x02\x02\x02\x88\x89\x07\x15\x02\x02" +
-		"\x89\x8A\x07\x05\x02\x02\x8A\x8B\x05\x10\t\x02\x8B\x8C\x07\x06\x02\x02" +
-		"\x8C\x8D\x07\x11\x02\x02\x8D\xA4\x03\x02\x02\x02\x8E\x8F\x05\f\x07\x02" +
-		"\x8F\x90\x07\x11\x02\x02\x90\xA4\x03\x02\x02\x02\x91\x92\x05\f\x07\x02" +
-		"\x92\x93\x07\x10\x02\x02\x93\x94\x05\x10\t\x02\x94\x95\x07\x11\x02\x02" +
-		"\x95\xA4\x03\x02\x02\x02\x96\x97\x07\x16\x02\x02\x97\x98\x05\x10\t\x02" +
-		"\x98\x99\x07\x11\x02\x02\x99\xA4\x03\x02\x02\x02\x9A\x9B\x07\x17\x02\x02" +
-		"\x9B\x9C\x07\x05\x02\x02\x9C\x9D\x05\x10\t\x02\x9D\x9E\x07\x06\x02\x02" +
-		"\x9E\x9F\x07\x11\x02\x02\x9F\xA4\x03\x02\x02\x02\xA0\xA1\x05\x10\t\x02" +
-		"\xA1\xA2\x07\x11\x02\x02\xA2\xA4\x03\x02\x02\x02\xA3u\x03\x02\x02\x02" +
-		"\xA3z\x03\x02\x02\x02\xA3\x82\x03\x02\x02\x02\xA3\x88\x03\x02\x02\x02" +
-		"\xA3\x8E\x03\x02\x02\x02\xA3\x91\x03\x02\x02\x02\xA3\x96\x03\x02\x02\x02" +
-		"\xA3\x9A\x03\x02\x02\x02\xA3\xA0\x03\x02\x02\x02\xA4\x13\x03\x02\x02\x02" +
-		"\xA5\xAA\x05\x10\t\x02\xA6\xA7\x07\t\x02\x02\xA7\xA9\x05\x10\t\x02\xA8" +
-		"\xA6\x03\x02\x02\x02\xA9\xAC\x03\x02\x02\x02\xAA\xA8\x03\x02\x02\x02\xAA" +
-		"\xAB\x03\x02\x02\x02\xAB\xAF\x03\x02\x02\x02\xAC\xAA\x03\x02\x02\x02\xAD" +
-		"\xAF\x03\x02\x02\x02\xAE\xA5\x03\x02\x02\x02\xAE\xAD\x03\x02\x02\x02\xAF" +
-		"\x15\x03\x02\x02\x02\xB0\xB1\t\x02\x02\x02\xB1\x17\x03\x02\x02\x02\xB2" +
-		"\xB3\t\x03\x02\x02\xB3\x19\x03\x02\x02\x02\xB4\xB5\x07!\x02\x02\xB5\x1B" +
-		"\x03\x02\x02\x02\xB6\xB7\x05\x10\t\x02\xB7\x1D\x03\x02\x02\x02\xB8\xBE" +
-		"\x07%\x02\x02\xB9\xBA\x07\x05\x02\x02\xBA\xBB\x05\x1E\x10\x02\xBB\xBC" +
-		"\x07\x06\x02\x02\xBC\xBE\x03\x02\x02\x02\xBD\xB8\x03\x02\x02\x02\xBD\xB9" +
-		"\x03\x02\x02\x02\xBE\x1F\x03\x02\x02\x02\x0E$7AENfpr\xA3\xAA\xAE\xBD";
+		"\x0E\t\x0E\x04\x0F\t\x0F\x04\x10\t\x10\x04\x11\t\x11\x04\x12\t\x12\x04" +
+		"\x13\t\x13\x03\x02\x03\x02\x03\x02\x03\x02\x05\x02+\n\x02\x03\x03\x03" +
+		"\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x04\x03\x04\x03\x04\x03\x04\x03" +
+		"\x04\x03\x04\x03\x04\x03\x05\x03\x05\x03\x05\x03\x05\x03\x06\x03\x06\x03" +
+		"\x06\x03\x06\x05\x06B\n\x06\x03\x07\x03\x07\x05\x07F\n\x07\x03\b\x03\b" +
+		"\x03\b\x03\b\x03\b\x05\bM\n\b\x03\t\x03\t\x03\t\x03\n\x03\n\x03\n\x03" +
+		"\n\x05\nV\n\n\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03" +
+		"\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03" +
+		"\v\x05\vn\n\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x07\vx\n" +
+		"\v\f\v\x0E\v{\v\v\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03" +
+		"\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03" +
+		"\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03" +
+		"\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03" +
+		"\f\x03\f\x05\f\xAB\n\f\x03\r\x03\r\x05\r\xAF\n\r\x03\x0E\x03\x0E\x03\x0E" +
+		"\x03\x0E\x03\x0E\x05\x0E\xB6\n\x0E\x03\x0F\x03\x0F\x03\x10\x03\x10\x03" +
+		"\x11\x03\x11\x03\x12\x03\x12\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x05" +
+		"\x13\xC5\n\x13\x03\x13\x02\x02\x03\x14\x14\x02\x02\x04\x02\x06\x02\b\x02" +
+		"\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18\x02\x1A\x02\x1C" +
+		"\x02\x1E\x02 \x02\"\x02$\x02\x02\x04\x04\x02\x0E\x0E\x18\x1E\x03\x02\x1F" +
+		" \x02\xD0\x02*\x03\x02\x02\x02\x04,\x03\x02\x02\x02\x062\x03\x02\x02\x02" +
+		"\b9\x03\x02\x02\x02\nA\x03\x02\x02\x02\fE\x03\x02\x02\x02\x0EL\x03\x02" +
+		"\x02\x02\x10N\x03\x02\x02\x02\x12U\x03\x02\x02\x02\x14m\x03\x02\x02\x02" +
+		"\x16\xAA\x03\x02\x02\x02\x18\xAE\x03\x02\x02\x02\x1A\xB5\x03\x02\x02\x02" +
+		"\x1C\xB7\x03\x02\x02\x02\x1E\xB9\x03\x02\x02\x02 \xBB\x03\x02\x02\x02" +
+		"\"\xBD\x03\x02\x02\x02$\xC4\x03\x02\x02\x02&\'\x05\x06\x04\x02\'(\x05" +
+		"\x02\x02\x02(+\x03\x02\x02\x02)+\x05\x04\x03\x02*&\x03\x02\x02\x02*)\x03" +
+		"\x02\x02\x02+\x03\x03\x02\x02\x02,-\x07\x03\x02\x02-.\x07\x04\x02\x02" +
+		"./\x07\x05\x02\x02/0\x07\x06\x02\x0201\x05\b\x05\x021\x05\x03\x02\x02" +
+		"\x0223\x05\x12\n\x0234\x07%\x02\x0245\x07\x05\x02\x0256\x05\f\x07\x02" +
+		"67\x07\x06\x02\x0278\x05\b\x05\x028\x07\x03\x02\x02\x029:\x07\x07\x02" +
+		"\x02:;\x05\n\x06\x02;<\x07\b\x02\x02<\t\x03\x02\x02\x02=>\x05\x16\f\x02" +
+		">?\x05\n\x06\x02?B\x03\x02\x02\x02@B\x03\x02\x02\x02A=\x03\x02\x02\x02" +
+		"A@\x03\x02\x02\x02B\v\x03\x02\x02\x02CF\x05\x0E\b\x02DF\x03\x02\x02\x02" +
+		"EC\x03\x02\x02\x02ED\x03\x02\x02\x02F\r\x03\x02\x02\x02GM\x05\x10\t\x02" +
+		"HI\x05\x10\t\x02IJ\x07\t\x02\x02JK\x05\x0E\b\x02KM\x03\x02\x02\x02LG\x03" +
+		"\x02\x02\x02LH\x03\x02\x02\x02M\x0F\x03\x02\x02\x02NO\x05\x12\n\x02OP" +
+		"\x07%\x02\x02P\x11\x03\x02\x02\x02QV\x07\x03\x02\x02RV\x07\n\x02\x02S" +
+		"V\x07\v\x02\x02TV\x07\f\x02\x02UQ\x03\x02\x02\x02UR\x03\x02\x02\x02US" +
+		"\x03\x02\x02\x02UT\x03\x02\x02\x02V\x13\x03\x02\x02\x02WX\b\v\x01\x02" +
+		"Xn\x07#\x02\x02Yn\x07$\x02\x02Zn\x07&\x02\x02[\\\x05 \x11\x02\\]\x05\x14" +
+		"\v\n]n\x03\x02\x02\x02^n\x07%\x02\x02_`\x07%\x02\x02`a\x07\x05\x02\x02" +
+		"ab\x05\x18\r\x02bc\x07\x06\x02\x02cn\x03\x02\x02\x02de\x07\r\x02\x02e" +
+		"f\x07\x05\x02\x02fg\x05\x14\v\x02gh\x07\x06\x02\x02hn\x03\x02\x02\x02" +
+		"ij\x07\x0E\x02\x02jn\x05\x14\v\x04kl\x07\x0F\x02\x02ln\x05\x14\v\x03m" +
+		"W\x03\x02\x02\x02mY\x03\x02\x02\x02mZ\x03\x02\x02\x02m[\x03\x02\x02\x02" +
+		"m^\x03\x02\x02\x02m_\x03\x02\x02\x02md\x03\x02\x02\x02mi\x03\x02\x02\x02" +
+		"mk\x03\x02\x02\x02ny\x03\x02\x02\x02op\f\t\x02\x02pq\x05\x1C\x0F\x02q" +
+		"r\x05\x14\v\nrx\x03\x02\x02\x02st\f\b\x02\x02tu\x05\x1E\x10\x02uv\x05" +
+		"\x14\v\tvx\x03\x02\x02\x02wo\x03\x02\x02\x02ws\x03\x02\x02\x02x{\x03\x02" +
+		"\x02\x02yw\x03\x02\x02\x02yz\x03\x02\x02\x02z\x15\x03\x02\x02\x02{y\x03" +
+		"\x02\x02\x02|}\x05$\x13\x02}~\x07\x10\x02\x02~\x7F\x05\x14\v\x02\x7F\x80" +
+		"\x07\x11\x02\x02\x80\xAB\x03\x02\x02\x02\x81\x82\x07\x12\x02\x02\x82\x83" +
+		"\x07\x05\x02\x02\x83\x84\x05\"\x12\x02\x84\x85\x07\x06\x02\x02\x85\x86" +
+		"\x05\b\x05\x02\x86\x87\x07\x13\x02\x02\x87\x88\x05\b\x05\x02\x88\xAB\x03" +
+		"\x02\x02\x02\x89\x8A\x07\x14\x02\x02\x8A\x8B\x07\x05\x02\x02\x8B\x8C\x05" +
+		"\"\x12\x02\x8C\x8D\x07\x06\x02\x02\x8D\x8E\x05\b\x05\x02\x8E\xAB\x03\x02" +
+		"\x02\x02\x8F\x90\x07\x15\x02\x02\x90\x91\x07\x05\x02\x02\x91\x92\x05\x14" +
+		"\v\x02\x92\x93\x07\x06\x02\x02\x93\x94\x07\x11\x02\x02\x94\xAB\x03\x02" +
+		"\x02\x02\x95\x96\x05\x10\t\x02\x96\x97\x07\x11\x02\x02\x97\xAB\x03\x02" +
+		"\x02\x02\x98\x99\x05\x10\t\x02\x99\x9A\x07\x10\x02\x02\x9A\x9B\x05\x14" +
+		"\v\x02\x9B\x9C\x07\x11\x02\x02\x9C\xAB\x03\x02\x02\x02\x9D\x9E\x07\x16" +
+		"\x02\x02\x9E\x9F\x05\x14\v\x02\x9F\xA0\x07\x11\x02\x02\xA0\xAB\x03\x02" +
+		"\x02\x02\xA1\xA2\x07\x17\x02\x02\xA2\xA3\x07\x05\x02\x02\xA3\xA4\x05\x14" +
+		"\v\x02\xA4\xA5\x07\x06\x02\x02\xA5\xA6\x07\x11\x02\x02\xA6\xAB\x03\x02" +
+		"\x02\x02\xA7\xA8\x05\x14\v\x02\xA8\xA9\x07\x11\x02\x02\xA9\xAB\x03\x02" +
+		"\x02\x02\xAA|\x03\x02\x02\x02\xAA\x81\x03\x02\x02\x02\xAA\x89\x03\x02" +
+		"\x02\x02\xAA\x8F\x03\x02\x02\x02\xAA\x95\x03\x02\x02\x02\xAA\x98\x03\x02" +
+		"\x02\x02\xAA\x9D\x03\x02\x02\x02\xAA\xA1\x03\x02\x02\x02\xAA\xA7\x03\x02" +
+		"\x02\x02\xAB\x17\x03\x02\x02\x02\xAC\xAF\x05\x1A\x0E\x02\xAD\xAF\x03\x02" +
+		"\x02\x02\xAE\xAC\x03\x02\x02\x02\xAE\xAD\x03\x02\x02\x02\xAF\x19\x03\x02" +
+		"\x02\x02\xB0\xB6\x05\x14\v\x02\xB1\xB2\x05\x14\v\x02\xB2\xB3\x07\t\x02" +
+		"\x02\xB3\xB4\x05\x1A\x0E\x02\xB4\xB6\x03\x02\x02\x02\xB5\xB0\x03\x02\x02" +
+		"\x02\xB5\xB1\x03\x02\x02\x02\xB6\x1B\x03\x02\x02\x02\xB7\xB8\t\x02\x02" +
+		"\x02\xB8\x1D\x03\x02\x02\x02\xB9\xBA\t\x03\x02\x02\xBA\x1F\x03\x02\x02" +
+		"\x02\xBB\xBC\x07!\x02\x02\xBC!\x03\x02\x02\x02\xBD\xBE\x05\x14\v\x02\xBE" +
+		"#\x03\x02\x02\x02\xBF\xC5\x07%\x02\x02\xC0\xC1\x07\x05\x02\x02\xC1\xC2" +
+		"\x05$\x13\x02\xC2\xC3\x07\x06\x02\x02\xC3\xC5\x03\x02\x02\x02\xC4\xBF" +
+		"\x03\x02\x02\x02\xC4\xC0\x03\x02\x02\x02\xC5%\x03\x02\x02\x02\x0E*AEL" +
+		"Umwy\xAA\xAE\xB5\xC4";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!wlp3Parser.__ATN) {
@@ -1135,7 +1244,7 @@ export class ProgramContext extends ParserRuleContext {
 		super.copyFrom(ctx);
 	}
 }
-export class FunprogContext extends ProgramContext {
+export class FunProgContext extends ProgramContext {
 	public _fun!: FunctionContext;
 	public _prog!: ProgramContext;
 	public function(): FunctionContext {
@@ -1150,26 +1259,26 @@ export class FunprogContext extends ProgramContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterFunprog) {
-			listener.enterFunprog(this);
+		if (listener.enterFunProg) {
+			listener.enterFunProg(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitFunprog) {
-			listener.exitFunprog(this);
+		if (listener.exitFunProg) {
+			listener.exitFunProg(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitFunprog) {
-			return visitor.visitFunprog(this);
+		if (visitor.visitFunProg) {
+			return visitor.visitFunProg(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class MainprogContext extends ProgramContext {
+export class MainProgContext extends ProgramContext {
 	public _mn!: MainContext;
 	public main(): MainContext {
 		return this.getRuleContext(0, MainContext);
@@ -1180,20 +1289,20 @@ export class MainprogContext extends ProgramContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterMainprog) {
-			listener.enterMainprog(this);
+		if (listener.enterMainProg) {
+			listener.enterMainProg(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitMainprog) {
-			listener.exitMainprog(this);
+		if (listener.exitMainProg) {
+			listener.exitMainProg(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitMainprog) {
-			return visitor.visitMainprog(this);
+		if (visitor.visitMainProg) {
+			return visitor.visitMainProg(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -1278,15 +1387,9 @@ export class FunctionContext extends ParserRuleContext {
 
 
 export class BlockContext extends ParserRuleContext {
-	public _stmnts!: StatementContext;
-	public statement(): StatementContext[];
-	public statement(i: number): StatementContext;
-	public statement(i?: number): StatementContext | StatementContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(StatementContext);
-		} else {
-			return this.getRuleContext(i, StatementContext);
-		}
+	public _stmnts!: StatementlistContext;
+	public statementlist(): StatementlistContext {
+		return this.getRuleContext(0, StatementlistContext);
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
@@ -1316,6 +1419,78 @@ export class BlockContext extends ParserRuleContext {
 }
 
 
+export class StatementlistContext extends ParserRuleContext {
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return wlp3Parser.RULE_statementlist; }
+	public copyFrom(ctx: StatementlistContext): void {
+		super.copyFrom(ctx);
+	}
+}
+export class StatementListContext extends StatementlistContext {
+	public _first!: StatementContext;
+	public _rest!: StatementlistContext;
+	public statement(): StatementContext {
+		return this.getRuleContext(0, StatementContext);
+	}
+	public statementlist(): StatementlistContext {
+		return this.getRuleContext(0, StatementlistContext);
+	}
+	constructor(ctx: StatementlistContext) {
+		super(ctx.parent, ctx.invokingState);
+		this.copyFrom(ctx);
+	}
+	// @Override
+	public enterRule(listener: wlp3Listener): void {
+		if (listener.enterStatementList) {
+			listener.enterStatementList(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: wlp3Listener): void {
+		if (listener.exitStatementList) {
+			listener.exitStatementList(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
+		if (visitor.visitStatementList) {
+			return visitor.visitStatementList(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+export class StatementEmptyContext extends StatementlistContext {
+	constructor(ctx: StatementlistContext) {
+		super(ctx.parent, ctx.invokingState);
+		this.copyFrom(ctx);
+	}
+	// @Override
+	public enterRule(listener: wlp3Listener): void {
+		if (listener.enterStatementEmpty) {
+			listener.enterStatementEmpty(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: wlp3Listener): void {
+		if (listener.exitStatementEmpty) {
+			listener.exitStatementEmpty(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
+		if (visitor.visitStatementEmpty) {
+			return visitor.visitStatementEmpty(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
 export class ParamsContext extends ParserRuleContext {
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
@@ -1326,17 +1501,10 @@ export class ParamsContext extends ParserRuleContext {
 		super.copyFrom(ctx);
 	}
 }
-export class DclsContext extends ParamsContext {
-	public _d!: DclContext;
-	public _ds!: DclContext;
-	public dcl(): DclContext[];
-	public dcl(i: number): DclContext;
-	public dcl(i?: number): DclContext | DclContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(DclContext);
-		} else {
-			return this.getRuleContext(i, DclContext);
-		}
+export class ParamsListContext extends ParamsContext {
+	public _list!: ParamlistContext;
+	public paramlist(): ParamlistContext {
+		return this.getRuleContext(0, ParamlistContext);
 	}
 	constructor(ctx: ParamsContext) {
 		super(ctx.parent, ctx.invokingState);
@@ -1344,46 +1512,122 @@ export class DclsContext extends ParamsContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterDcls) {
-			listener.enterDcls(this);
+		if (listener.enterParamsList) {
+			listener.enterParamsList(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitDcls) {
-			listener.exitDcls(this);
+		if (listener.exitParamsList) {
+			listener.exitParamsList(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitDcls) {
-			return visitor.visitDcls(this);
+		if (visitor.visitParamsList) {
+			return visitor.visitParamsList(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class ParamsemptyContext extends ParamsContext {
+export class ParamsEmptyContext extends ParamsContext {
 	constructor(ctx: ParamsContext) {
 		super(ctx.parent, ctx.invokingState);
 		this.copyFrom(ctx);
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterParamsempty) {
-			listener.enterParamsempty(this);
+		if (listener.enterParamsEmpty) {
+			listener.enterParamsEmpty(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitParamsempty) {
-			listener.exitParamsempty(this);
+		if (listener.exitParamsEmpty) {
+			listener.exitParamsEmpty(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitParamsempty) {
-			return visitor.visitParamsempty(this);
+		if (visitor.visitParamsEmpty) {
+			return visitor.visitParamsEmpty(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class ParamlistContext extends ParserRuleContext {
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return wlp3Parser.RULE_paramlist; }
+	public copyFrom(ctx: ParamlistContext): void {
+		super.copyFrom(ctx);
+	}
+}
+export class SingleParamContext extends ParamlistContext {
+	public _first!: DclContext;
+	public dcl(): DclContext {
+		return this.getRuleContext(0, DclContext);
+	}
+	constructor(ctx: ParamlistContext) {
+		super(ctx.parent, ctx.invokingState);
+		this.copyFrom(ctx);
+	}
+	// @Override
+	public enterRule(listener: wlp3Listener): void {
+		if (listener.enterSingleParam) {
+			listener.enterSingleParam(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: wlp3Listener): void {
+		if (listener.exitSingleParam) {
+			listener.exitSingleParam(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
+		if (visitor.visitSingleParam) {
+			return visitor.visitSingleParam(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+export class MultiParamContext extends ParamlistContext {
+	public _first!: DclContext;
+	public _rest!: ParamlistContext;
+	public dcl(): DclContext {
+		return this.getRuleContext(0, DclContext);
+	}
+	public paramlist(): ParamlistContext {
+		return this.getRuleContext(0, ParamlistContext);
+	}
+	constructor(ctx: ParamlistContext) {
+		super(ctx.parent, ctx.invokingState);
+		this.copyFrom(ctx);
+	}
+	// @Override
+	public enterRule(listener: wlp3Listener): void {
+		if (listener.enterMultiParam) {
+			listener.enterMultiParam(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: wlp3Listener): void {
+		if (listener.exitMultiParam) {
+			listener.exitMultiParam(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
+		if (visitor.visitMultiParam) {
+			return visitor.visitMultiParam(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -1392,6 +1636,8 @@ export class ParamsemptyContext extends ParamsContext {
 
 
 export class DclContext extends ParserRuleContext {
+	public _t!: TypeContext;
+	public _id!: Token;
 	public type(): TypeContext {
 		return this.getRuleContext(0, TypeContext);
 	}
@@ -1434,105 +1680,105 @@ export class TypeContext extends ParserRuleContext {
 		super.copyFrom(ctx);
 	}
 }
-export class InttypeContext extends TypeContext {
+export class IntTypeContext extends TypeContext {
 	constructor(ctx: TypeContext) {
 		super(ctx.parent, ctx.invokingState);
 		this.copyFrom(ctx);
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterInttype) {
-			listener.enterInttype(this);
+		if (listener.enterIntType) {
+			listener.enterIntType(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitInttype) {
-			listener.exitInttype(this);
+		if (listener.exitIntType) {
+			listener.exitIntType(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitInttype) {
-			return visitor.visitInttype(this);
+		if (visitor.visitIntType) {
+			return visitor.visitIntType(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class BooltypeContext extends TypeContext {
+export class BoolTypeContext extends TypeContext {
 	constructor(ctx: TypeContext) {
 		super(ctx.parent, ctx.invokingState);
 		this.copyFrom(ctx);
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterBooltype) {
-			listener.enterBooltype(this);
+		if (listener.enterBoolType) {
+			listener.enterBoolType(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitBooltype) {
-			listener.exitBooltype(this);
+		if (listener.exitBoolType) {
+			listener.exitBoolType(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitBooltype) {
-			return visitor.visitBooltype(this);
+		if (visitor.visitBoolType) {
+			return visitor.visitBoolType(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class StringtypeContext extends TypeContext {
+export class StringTypeContext extends TypeContext {
 	constructor(ctx: TypeContext) {
 		super(ctx.parent, ctx.invokingState);
 		this.copyFrom(ctx);
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterStringtype) {
-			listener.enterStringtype(this);
+		if (listener.enterStringType) {
+			listener.enterStringType(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitStringtype) {
-			listener.exitStringtype(this);
+		if (listener.exitStringType) {
+			listener.exitStringType(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitStringtype) {
-			return visitor.visitStringtype(this);
+		if (visitor.visitStringType) {
+			return visitor.visitStringType(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class IntstartypeContext extends TypeContext {
+export class IntStarTypeContext extends TypeContext {
 	constructor(ctx: TypeContext) {
 		super(ctx.parent, ctx.invokingState);
 		this.copyFrom(ctx);
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterIntstartype) {
-			listener.enterIntstartype(this);
+		if (listener.enterIntStarType) {
+			listener.enterIntStarType(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitIntstartype) {
-			listener.exitIntstartype(this);
+		if (listener.exitIntStarType) {
+			listener.exitIntStarType(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitIntstartype) {
-			return visitor.visitIntstartype(this);
+		if (visitor.visitIntStarType) {
+			return visitor.visitIntStarType(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -1631,7 +1877,7 @@ export class BoolContext extends ExprContext {
 		}
 	}
 }
-export class UnopexprContext extends ExprContext {
+export class UnopExprContext extends ExprContext {
 	public _unop!: UnaryoperatorContext;
 	public _first!: ExprContext;
 	public unaryoperator(): UnaryoperatorContext {
@@ -1646,26 +1892,26 @@ export class UnopexprContext extends ExprContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterUnopexpr) {
-			listener.enterUnopexpr(this);
+		if (listener.enterUnopExpr) {
+			listener.enterUnopExpr(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitUnopexpr) {
-			listener.exitUnopexpr(this);
+		if (listener.exitUnopExpr) {
+			listener.exitUnopExpr(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitUnopexpr) {
-			return visitor.visitUnopexpr(this);
+		if (visitor.visitUnopExpr) {
+			return visitor.visitUnopExpr(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class BinopexprContext extends ExprContext {
+export class BinopExprContext extends ExprContext {
 	public _first!: ExprContext;
 	public _binop!: BinaryoperatorContext;
 	public _second!: ExprContext;
@@ -1687,26 +1933,26 @@ export class BinopexprContext extends ExprContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterBinopexpr) {
-			listener.enterBinopexpr(this);
+		if (listener.enterBinopExpr) {
+			listener.enterBinopExpr(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitBinopexpr) {
-			listener.exitBinopexpr(this);
+		if (listener.exitBinopExpr) {
+			listener.exitBinopExpr(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitBinopexpr) {
-			return visitor.visitBinopexpr(this);
+		if (visitor.visitBinopExpr) {
+			return visitor.visitBinopExpr(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class BinlogexprContext extends ExprContext {
+export class BinlogExprContext extends ExprContext {
 	public _first!: ExprContext;
 	public _binlog!: BinarylogicalContext;
 	public _second!: ExprContext;
@@ -1728,26 +1974,26 @@ export class BinlogexprContext extends ExprContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterBinlogexpr) {
-			listener.enterBinlogexpr(this);
+		if (listener.enterBinlogExpr) {
+			listener.enterBinlogExpr(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitBinlogexpr) {
-			listener.exitBinlogexpr(this);
+		if (listener.exitBinlogExpr) {
+			listener.exitBinlogExpr(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitBinlogexpr) {
-			return visitor.visitBinlogexpr(this);
+		if (visitor.visitBinlogExpr) {
+			return visitor.visitBinlogExpr(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class IdexprContext extends ExprContext {
+export class IdExprContext extends ExprContext {
 	public _id!: Token;
 	public ID(): TerminalNode { return this.getToken(wlp3Parser.ID, 0); }
 	constructor(ctx: ExprContext) {
@@ -1756,31 +2002,31 @@ export class IdexprContext extends ExprContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterIdexpr) {
-			listener.enterIdexpr(this);
+		if (listener.enterIdExpr) {
+			listener.enterIdExpr(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitIdexpr) {
-			listener.exitIdexpr(this);
+		if (listener.exitIdExpr) {
+			listener.exitIdExpr(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitIdexpr) {
-			return visitor.visitIdexpr(this);
+		if (visitor.visitIdExpr) {
+			return visitor.visitIdExpr(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class FnexprContext extends ExprContext {
+export class FnExprContext extends ExprContext {
 	public _id!: Token;
-	public _arglst!: ArglistContext;
+	public _arglst!: ArgsContext;
 	public ID(): TerminalNode { return this.getToken(wlp3Parser.ID, 0); }
-	public arglist(): ArglistContext {
-		return this.getRuleContext(0, ArglistContext);
+	public args(): ArgsContext {
+		return this.getRuleContext(0, ArgsContext);
 	}
 	constructor(ctx: ExprContext) {
 		super(ctx.parent, ctx.invokingState);
@@ -1788,26 +2034,26 @@ export class FnexprContext extends ExprContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterFnexpr) {
-			listener.enterFnexpr(this);
+		if (listener.enterFnExpr) {
+			listener.enterFnExpr(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitFnexpr) {
-			listener.exitFnexpr(this);
+		if (listener.exitFnExpr) {
+			listener.exitFnExpr(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitFnexpr) {
-			return visitor.visitFnexpr(this);
+		if (visitor.visitFnExpr) {
+			return visitor.visitFnExpr(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class MallocexprContext extends ExprContext {
+export class MallocExprContext extends ExprContext {
 	public _first!: ExprContext;
 	public expr(): ExprContext {
 		return this.getRuleContext(0, ExprContext);
@@ -1818,26 +2064,26 @@ export class MallocexprContext extends ExprContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterMallocexpr) {
-			listener.enterMallocexpr(this);
+		if (listener.enterMallocExpr) {
+			listener.enterMallocExpr(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitMallocexpr) {
-			listener.exitMallocexpr(this);
+		if (listener.exitMallocExpr) {
+			listener.exitMallocExpr(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitMallocexpr) {
-			return visitor.visitMallocexpr(this);
+		if (visitor.visitMallocExpr) {
+			return visitor.visitMallocExpr(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class StarexprContext extends ExprContext {
+export class StarExprContext extends ExprContext {
 	public _first!: ExprContext;
 	public expr(): ExprContext {
 		return this.getRuleContext(0, ExprContext);
@@ -1848,26 +2094,26 @@ export class StarexprContext extends ExprContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterStarexpr) {
-			listener.enterStarexpr(this);
+		if (listener.enterStarExpr) {
+			listener.enterStarExpr(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitStarexpr) {
-			listener.exitStarexpr(this);
+		if (listener.exitStarExpr) {
+			listener.exitStarExpr(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitStarexpr) {
-			return visitor.visitStarexpr(this);
+		if (visitor.visitStarExpr) {
+			return visitor.visitStarExpr(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class AmpersandexprContext extends ExprContext {
+export class AmpersandExprContext extends ExprContext {
 	public _first!: ExprContext;
 	public expr(): ExprContext {
 		return this.getRuleContext(0, ExprContext);
@@ -1878,20 +2124,20 @@ export class AmpersandexprContext extends ExprContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterAmpersandexpr) {
-			listener.enterAmpersandexpr(this);
+		if (listener.enterAmpersandExpr) {
+			listener.enterAmpersandExpr(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitAmpersandexpr) {
-			listener.exitAmpersandexpr(this);
+		if (listener.exitAmpersandExpr) {
+			listener.exitAmpersandExpr(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitAmpersandexpr) {
-			return visitor.visitAmpersandexpr(this);
+		if (visitor.visitAmpersandExpr) {
+			return visitor.visitAmpersandExpr(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -1943,7 +2189,7 @@ export class AssignmentContext extends StatementContext {
 		}
 	}
 }
-export class IfstatementContext extends StatementContext {
+export class IfStatementstatementContext extends StatementContext {
 	public _pred!: PredicateContext;
 	public _cons!: BlockContext;
 	public _alt!: BlockContext;
@@ -1965,26 +2211,26 @@ export class IfstatementContext extends StatementContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterIfstatement) {
-			listener.enterIfstatement(this);
+		if (listener.enterIfStatementstatement) {
+			listener.enterIfStatementstatement(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitIfstatement) {
-			listener.exitIfstatement(this);
+		if (listener.exitIfStatementstatement) {
+			listener.exitIfStatementstatement(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitIfstatement) {
-			return visitor.visitIfstatement(this);
+		if (visitor.visitIfStatementstatement) {
+			return visitor.visitIfStatementstatement(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class WhilestatementContext extends StatementContext {
+export class WhileStatementContext extends StatementContext {
 	public _pred!: PredicateContext;
 	public _body!: BlockContext;
 	public predicate(): PredicateContext {
@@ -1999,20 +2245,20 @@ export class WhilestatementContext extends StatementContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterWhilestatement) {
-			listener.enterWhilestatement(this);
+		if (listener.enterWhileStatement) {
+			listener.enterWhileStatement(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitWhilestatement) {
-			listener.exitWhilestatement(this);
+		if (listener.exitWhileStatement) {
+			listener.exitWhileStatement(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitWhilestatement) {
-			return visitor.visitWhilestatement(this);
+		if (visitor.visitWhileStatement) {
+			return visitor.visitWhileStatement(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -2048,7 +2294,7 @@ export class PrintfstatementContext extends StatementContext {
 		}
 	}
 }
-export class DclstatementContext extends StatementContext {
+export class DclStatementContext extends StatementContext {
 	public _d!: DclContext;
 	public dcl(): DclContext {
 		return this.getRuleContext(0, DclContext);
@@ -2059,26 +2305,26 @@ export class DclstatementContext extends StatementContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterDclstatement) {
-			listener.enterDclstatement(this);
+		if (listener.enterDclStatement) {
+			listener.enterDclStatement(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitDclstatement) {
-			listener.exitDclstatement(this);
+		if (listener.exitDclStatement) {
+			listener.exitDclStatement(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitDclstatement) {
-			return visitor.visitDclstatement(this);
+		if (visitor.visitDclStatement) {
+			return visitor.visitDclStatement(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class DclassignmentContext extends StatementContext {
+export class DclAssignmentContext extends StatementContext {
 	public _d!: DclContext;
 	public _val!: ExprContext;
 	public dcl(): DclContext {
@@ -2093,26 +2339,26 @@ export class DclassignmentContext extends StatementContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterDclassignment) {
-			listener.enterDclassignment(this);
+		if (listener.enterDclAssignment) {
+			listener.enterDclAssignment(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitDclassignment) {
-			listener.exitDclassignment(this);
+		if (listener.exitDclAssignment) {
+			listener.exitDclAssignment(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitDclassignment) {
-			return visitor.visitDclassignment(this);
+		if (visitor.visitDclAssignment) {
+			return visitor.visitDclAssignment(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class ReturnstatementContext extends StatementContext {
+export class ReturnStatementContext extends StatementContext {
 	public _val!: ExprContext;
 	public expr(): ExprContext {
 		return this.getRuleContext(0, ExprContext);
@@ -2123,26 +2369,26 @@ export class ReturnstatementContext extends StatementContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterReturnstatement) {
-			listener.enterReturnstatement(this);
+		if (listener.enterReturnStatement) {
+			listener.enterReturnStatement(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitReturnstatement) {
-			listener.exitReturnstatement(this);
+		if (listener.exitReturnStatement) {
+			listener.exitReturnStatement(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitReturnstatement) {
-			return visitor.visitReturnstatement(this);
+		if (visitor.visitReturnStatement) {
+			return visitor.visitReturnStatement(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class FreestatementContext extends StatementContext {
+export class FreeStatementContext extends StatementContext {
 	public _val!: ExprContext;
 	public expr(): ExprContext {
 		return this.getRuleContext(0, ExprContext);
@@ -2153,26 +2399,26 @@ export class FreestatementContext extends StatementContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterFreestatement) {
-			listener.enterFreestatement(this);
+		if (listener.enterFreeStatement) {
+			listener.enterFreeStatement(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitFreestatement) {
-			listener.exitFreestatement(this);
+		if (listener.exitFreeStatement) {
+			listener.exitFreeStatement(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitFreestatement) {
-			return visitor.visitFreestatement(this);
+		if (visitor.visitFreeStatement) {
+			return visitor.visitFreeStatement(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class ExprstatementContext extends StatementContext {
+export class ExprStatementContext extends StatementContext {
 	public _val!: ExprContext;
 	public expr(): ExprContext {
 		return this.getRuleContext(0, ExprContext);
@@ -2183,20 +2429,88 @@ export class ExprstatementContext extends StatementContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterExprstatement) {
-			listener.enterExprstatement(this);
+		if (listener.enterExprStatement) {
+			listener.enterExprStatement(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitExprstatement) {
-			listener.exitExprstatement(this);
+		if (listener.exitExprStatement) {
+			listener.exitExprStatement(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitExprstatement) {
-			return visitor.visitExprstatement(this);
+		if (visitor.visitExprStatement) {
+			return visitor.visitExprStatement(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class ArgsContext extends ParserRuleContext {
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return wlp3Parser.RULE_args; }
+	public copyFrom(ctx: ArgsContext): void {
+		super.copyFrom(ctx);
+	}
+}
+export class ArgsListContext extends ArgsContext {
+	public _list!: ArglistContext;
+	public arglist(): ArglistContext {
+		return this.getRuleContext(0, ArglistContext);
+	}
+	constructor(ctx: ArgsContext) {
+		super(ctx.parent, ctx.invokingState);
+		this.copyFrom(ctx);
+	}
+	// @Override
+	public enterRule(listener: wlp3Listener): void {
+		if (listener.enterArgsList) {
+			listener.enterArgsList(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: wlp3Listener): void {
+		if (listener.exitArgsList) {
+			listener.exitArgsList(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
+		if (visitor.visitArgsList) {
+			return visitor.visitArgsList(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+export class ArgsEmptyContext extends ArgsContext {
+	constructor(ctx: ArgsContext) {
+		super(ctx.parent, ctx.invokingState);
+		this.copyFrom(ctx);
+	}
+	// @Override
+	public enterRule(listener: wlp3Listener): void {
+		if (listener.enterArgsEmpty) {
+			listener.enterArgsEmpty(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: wlp3Listener): void {
+		if (listener.exitArgsEmpty) {
+			listener.exitArgsEmpty(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
+		if (visitor.visitArgsEmpty) {
+			return visitor.visitArgsEmpty(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -2214,17 +2528,10 @@ export class ArglistContext extends ParserRuleContext {
 		super.copyFrom(ctx);
 	}
 }
-export class ArglstContext extends ArglistContext {
-	public _arg!: ExprContext;
-	public _args!: ExprContext;
-	public expr(): ExprContext[];
-	public expr(i: number): ExprContext;
-	public expr(i?: number): ExprContext | ExprContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(ExprContext);
-		} else {
-			return this.getRuleContext(i, ExprContext);
-		}
+export class SingleArgContext extends ArglistContext {
+	public _first!: ExprContext;
+	public expr(): ExprContext {
+		return this.getRuleContext(0, ExprContext);
 	}
 	constructor(ctx: ArglistContext) {
 		super(ctx.parent, ctx.invokingState);
@@ -2232,46 +2539,54 @@ export class ArglstContext extends ArglistContext {
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterArglst) {
-			listener.enterArglst(this);
+		if (listener.enterSingleArg) {
+			listener.enterSingleArg(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitArglst) {
-			listener.exitArglst(this);
+		if (listener.exitSingleArg) {
+			listener.exitSingleArg(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitArglst) {
-			return visitor.visitArglst(this);
+		if (visitor.visitSingleArg) {
+			return visitor.visitSingleArg(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
 	}
 }
-export class ArglistemptyContext extends ArglistContext {
+export class MultiArgsContext extends ArglistContext {
+	public _first!: ExprContext;
+	public _rest!: ArglistContext;
+	public expr(): ExprContext {
+		return this.getRuleContext(0, ExprContext);
+	}
+	public arglist(): ArglistContext {
+		return this.getRuleContext(0, ArglistContext);
+	}
 	constructor(ctx: ArglistContext) {
 		super(ctx.parent, ctx.invokingState);
 		this.copyFrom(ctx);
 	}
 	// @Override
 	public enterRule(listener: wlp3Listener): void {
-		if (listener.enterArglistempty) {
-			listener.enterArglistempty(this);
+		if (listener.enterMultiArgs) {
+			listener.enterMultiArgs(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: wlp3Listener): void {
-		if (listener.exitArglistempty) {
-			listener.exitArglistempty(this);
+		if (listener.exitMultiArgs) {
+			listener.exitMultiArgs(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: wlp3Visitor<Result>): Result {
-		if (visitor.visitArglistempty) {
-			return visitor.visitArglistempty(this);
+		if (visitor.visitMultiArgs) {
+			return visitor.visitMultiArgs(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
