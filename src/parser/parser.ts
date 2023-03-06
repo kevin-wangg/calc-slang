@@ -149,8 +149,7 @@ class ProgramGenerator implements wlp3Visitor<any> {
   }
   visitDcls(ctx: DclsContext): any {
     return {
-      type: 'Dcls',
-
+      type: 'Dcls'
     }
   }
 
