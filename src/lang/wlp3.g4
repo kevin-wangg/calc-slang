@@ -33,7 +33,7 @@ expr: INT # Int
 	| '&' first=expr # AmpersandExpr
     ;
 statement: lv=lvalue '=' val=expr ';' # Assignment
-       | 'if' '(' pred=predicate ')' cons=block 'else' alt=block # IfStatementstatement
+       | 'if' '(' pred=predicate ')' cons=block 'else' alt=block # IfStatement
 	     | 'while' '(' pred=predicate ')' body=block # WhileStatement
 	     | 'printf' '(' body=expr ')' ';' # PrintfStatement
 	     | d=dcl ';' # DclStatement
@@ -62,7 +62,9 @@ binarylogical: '&&'
               ;
 unaryoperator: '!';
 predicate: pred=expr;
-lvalue: id=ID | '(' lv=lvalue ')';
+lvalue: id=ID # IdLvalue
+  | '(' lv=lvalue ')' # BracketLvalue
+  ;
 
 WS      : [ \t\r\n]+ -> skip ;
 INT     : [0-9]+ ;
