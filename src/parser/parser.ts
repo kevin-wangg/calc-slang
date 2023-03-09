@@ -5,21 +5,71 @@ import { ParseTree } from 'antlr4ts/tree/ParseTree'
 import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
+import { inspect } from 'util' // Debugging
 
 import { CalcLexer } from '../lang/CalcLexer'
+import { CalcParser } from '../lang/CalcParser'
+import { wlp3Lexer } from '../lang/wlp3Lexer'
 import {
-  AdditionContext,
-  CalcParser,
-  DivisionContext,
-  ExpressionContext,
-  MultiplicationContext,
-  NumberContext,
-  ParenthesesContext,
-  PowerContext,
-  StartContext,
-  SubtractionContext
-} from '../lang/CalcParser'
-import { CalcVisitor } from '../lang/CalcVisitor'
+  AmpersandExprContext,
+  ArglistContext,
+  ArgsContext,
+  ArgsEmptyContext,
+  ArgsListContext,
+  AssignmentContext,
+  BinarylogicalContext,
+  BinaryoperatorContext,
+  BinlogExprContext,
+  BinopExprContext,
+  BlockContext,
+  BoolContext,
+  BoolTypeContext,
+  BracketLvalueContext,
+  DclAssignmentContext,
+  DclContext,
+  DclStatementContext,
+  ExprContext,
+  ExprStatementContext,
+  FnExprContext,
+  FreeStatementContext,
+  FunctionContext,
+  FunProgContext,
+  IdExprContext,
+  IdLvalueContext,
+  IfStatementContext,
+  IntContext,
+  IntStarTypeContext,
+  IntTypeContext,
+  LvalueContext,
+  MainContext,
+  MainProgContext,
+  MallocExprContext,
+  MultiArgsContext,
+  MultiParamContext,
+  ParamlistContext,
+  ParamsContext,
+  ParamsEmptyContext,
+  ParamsListContext,
+  PredicateContext,
+  PrintfStatementContext,
+  ProgramContext,
+  ReturnStatementContext,
+  SingleArgContext,
+  SingleParamContext,
+  StarExprContext,
+  StatementContext,
+  StatementEmptyContext,
+  StatementListContext,
+  StatementlistContext,
+  StringContext,
+  StringTypeContext,
+  TypeContext,
+  UnaryoperatorContext,
+  UnopExprContext,
+  WhileStatementContext,
+  wlp3Parser
+} from '../lang/wlp3Parser'
+import { wlp3Visitor } from '../lang/wlp3Visitor'
 import { Context, ErrorSeverity, ErrorType, SourceError } from '../types'
 import { stripIndent } from '../utils/formatters'
 
@@ -108,7 +158,7 @@ export class TrailingCommaError implements SourceError {
   }
 }
 
-function contextToLocation(ctx: ExpressionContext): es.SourceLocation {
+function contextToLocation(ctx: ProgramContext): es.SourceLocation {
   return {
     start: {
       line: ctx.start.line,
@@ -120,73 +170,303 @@ function contextToLocation(ctx: ExpressionContext): es.SourceLocation {
     }
   }
 }
-class ExpressionGenerator implements CalcVisitor<es.Expression> {
-  visitNumber(ctx: NumberContext): es.Expression {
+
+class ProgramGenerator implements wlp3Visitor<any> {
+  visitStatementList(ctx: StatementListContext): any {
     return {
-      type: 'Literal',
-      value: parseInt(ctx.text),
-      raw: ctx.text,
-      loc: contextToLocation(ctx)
+      type: 'StatementList',
+      first: this.visit(ctx._first),
+      rest: this.visit(ctx._rest)
     }
   }
-  visitParentheses(ctx: ParenthesesContext): es.Expression {
-    return this.visit(ctx.expression())
-  }
-  visitPower(ctx: PowerContext): es.Expression {
+  visitStatementEmpty(ctx: StatementEmptyContext): any {
     return {
-      type: 'BinaryExpression',
-      operator: '^',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
+      type: 'StatementEmpty'
+    }
+  }
+  visitSingleParam(ctx: SingleParamContext): any {
+    return {
+      type: 'SingleParam',
+      first: this.visit(ctx._first)
+    }
+  }
+  visitMultiParam(ctx: MultiParamContext): any {
+    return {
+      type: 'MultiParam',
+      first: this.visit(ctx._first),
+      rest: this.visit(ctx._rest)
+    }
+  }
+  visitFunProg(ctx: FunProgContext): any {
+    return {
+      type: 'FunProg',
+      fun: this.visit(ctx._fun),
+      prog: this.visit(ctx._prog)
+    }
+  }
+  visitMainProg(ctx: MainProgContext): any {
+    return {
+      type: 'MainProg',
+      mn: this.visit(ctx._mn)
+    }
+  }
+  visitParamsList(ctx: ParamsListContext): any {
+    return {
+      type: 'ParamsList',
+      list: this.visit(ctx._list)
+    }
+  }
+  visitParamsEmpty(ctx: ParamsEmptyContext): any {
+    return {
+      type: 'ParamsEmpty'
+    }
+  }
+  visitIntType(ctx: IntTypeContext): any {
+    return {
+      type: 'IntType'
+    }
+  }
+  visitBoolType(ctx: BoolTypeContext): any {
+    return {
+      type: 'BoolType'
+    }
+  }
+  visitStringType(ctx: StringTypeContext): any {
+    return {
+      type: 'StringType'
+    }
+  }
+  visitIntStarType(ctx: IntStarTypeContext): any {
+    return {
+      type: 'IntStarTypeContext'
+    }
+  }
+  visitArgsList(ctx: ArgsListContext): any {
+    return {
+      type: 'ArgsList',
+      list: this.visit(ctx._list)
+    }
+  }
+  visitArgsEmpty(ctx: ArgsEmptyContext): any {
+    return {
+      type: 'ArgsEmpty'
+    }
+  }
+  visitIdLvalue(ctx: IdLvalueContext): any {
+    return {
+      type: 'IdLvalue',
+      id: ctx.ID()
+    }
+  }
+  visitBracketLvalue(ctx: BracketLvalueContext): any {
+    return {
+      type: 'BracketLvalue',
+      lv: this.visit(ctx._lv)
+    }
+  }
+  visitSingleArg(ctx: SingleArgContext): any {
+    return {
+      type: 'SingleArg',
+      first: this.visit(ctx._first)
+    }
+  }
+  visitMultiArgs(ctx: MultiArgsContext): any {
+    return {
+      type: 'MultiArgs',
+      first: this.visit(ctx._first),
+      rest: this.visit(ctx._rest)
+    }
+  }
+  visitAssignment(ctx: AssignmentContext): any {
+    return {
+      type: 'Assignment',
+      lv: this.visit(ctx._lv),
+      val: this.visit(ctx._val)
+    }
+  }
+  visitIfStatement(ctx: IfStatementContext): any {
+    return {
+      type: 'IfStatement',
+      pred: this.visit(ctx._pred),
+      cons: this.visit(ctx._cons),
+      alt: this.visit(ctx._alt)
+    }
+  }
+  visitWhileStatement(ctx: WhileStatementContext): any {
+    return {
+      type: 'WhileStatement',
+      pred: this.visit(ctx._pred),
+      body: this.visit(ctx._body)
+    }
+  }
+  visitPrintfStatement(ctx: PrintfStatementContext): any {
+    return {
+      type: 'PrintfStatement',
+      body: this.visit(ctx._body)
+    }
+  }
+  visitDclStatement(ctx: DclStatementContext): any {
+    return {
+      type: 'DclStatement',
+      d: this.visit(ctx._d)
+    }
+  }
+  visitDclAssignment(ctx: DclAssignmentContext): any {
+    return {
+      type: 'DclAssignment',
+      d: this.visit(ctx._d),
+      val: this.visit(ctx._val)
+    }
+  }
+  visitReturnStatement(ctx: ReturnStatementContext): any {
+    return {
+      type: 'ReturnStatement',
+      val: this.visit(ctx._val)
+    }
+  }
+  visitFreeStatement(ctx: FreeStatementContext): any {
+    return {
+      type: 'FreeStatement',
+      val: this.visit(ctx._val)
+    }
+  }
+  visitExprStatement(ctx: ExprStatementContext): any {
+    return {
+      type: 'ExprStatement',
+      val: this.visit(ctx._val)
+    }
+  }
+  visitInt(ctx: IntContext): any {
+    return {
+      type: 'IntLiteral',
+      val: parseInt(ctx.text)
+    }
+  }
+  visitString(ctx: StringContext): any {
+    return {
+      type: 'StringLiteral',
+      val: ctx.text
+    }
+  }
+  visitBool(ctx: BoolContext): any {
+    return {
+      type: 'BoolLiteral',
+      val: ctx.text === 'true'
+    }
+  }
+  visitUnopExpr(ctx: UnopExprContext): any {
+    return {
+      type: 'UnopExpr',
+      unop: ctx._unop,
+      first: this.visit(ctx._first)
+    }
+  }
+  visitBinopExpr(ctx: BinopExprContext): any {
+    return {
+      type: 'BinopExpr',
+      binop: ctx._binop,
+      first: this.visit(ctx._first),
+      second: this.visit(ctx._second)
+    }
+  }
+  visitBinlogExpr(ctx: BinlogExprContext): any {
+    return {
+      type: 'BinlogExpr',
+      binlog: ctx._binlog,
+      first: this.visit(ctx._first),
+      second: this.visit(ctx._second)
+    }
+  }
+  visitIdExpr(ctx: IdExprContext): any {
+    return {
+      type: 'IdExpr',
+      id: ctx.ID()
+    }
+  }
+  visitFnExpr(ctx: FnExprContext): any {
+    return {
+      type: 'FnExpr',
+      id: ctx.ID(),
+      arglst: this.visit(ctx._arglst)
+    }
+  }
+  visitMallocExpr(ctx: MallocExprContext): any {
+    return {
+      type: 'MallocExpr',
+      first: this.visit(ctx._first)
+    }
+  }
+  visitStarExpr(ctx: StarExprContext): any {
+    return {
+      type: 'StarExpr',
+      first: this.visit(ctx._first)
+    }
+  }
+  visitAmpersandExpr(ctx: AmpersandExprContext): any {
+    return {
+      type: 'AmpersandExpr',
+      first: this.visit(ctx._first)
+    }
+  }
+  visitProgram(ctx: ProgramContext): any {
+    return {
+      type: ''
+    }
+  }
+  visitMain(ctx: MainContext): any {
+    return {
+      type: 'Main',
+      blk: this.visit(ctx._blk)
+    }
+  }
+  visitFunction(ctx: FunctionContext): any {
+    return {
+      type: 'Function',
+      t: this.visit(ctx._t),
+      id: ctx.ID(),
+      prms: this.visit(ctx._prms),
+      blk: this.visit(ctx._blk)
+    }
+  }
+  visitBlock(ctx: BlockContext): any {
+    return {
+      type: 'Block',
+      stmnts: this.visit(ctx._stmnts)
     }
   }
 
-  visitMultiplication(ctx: MultiplicationContext): es.Expression {
+  visitStatementlist?: (ctx: StatementlistContext) => any
+  visitParams?: (ctx: ParamsContext) => any
+  visitParamlist?: (ctx: ParamlistContext) => any
+  visitDcl(ctx: DclContext): any {
     return {
-      type: 'BinaryExpression',
-      operator: '*',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
+      type: 'Dcl',
+      t: this.visit(ctx._t),
+      id: ctx.ID()
     }
   }
-  visitDivision(ctx: DivisionContext): es.Expression {
+  visitType?: (ctx: TypeContext) => any
+  visitExpr?: (ctx: ExprContext) => any
+  visitStatement?: (ctx: StatementContext) => any
+  visitArgs?: (ctx: ArgsContext) => any
+  visitArglist?: (ctx: ArglistContext) => any
+  visitBinaryoperator?: (ctx: BinaryoperatorContext) => any
+  visitBinarylogical?: (ctx: BinarylogicalContext) => any
+  visitUnaryoperator?: (ctx: UnaryoperatorContext) => any
+  visitPredicate(ctx: PredicateContext): any {
     return {
-      type: 'BinaryExpression',
-      operator: '/',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
+      type: 'Predicate',
+      pred: this.visit(ctx._pred)
     }
   }
-  visitAddition(ctx: AdditionContext): es.Expression {
-    return {
-      type: 'BinaryExpression',
-      operator: '+',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
-    }
-  }
+  visitLvalue?: (ctx: LvalueContext) => any
 
-  visitSubtraction(ctx: SubtractionContext): es.Expression {
-    return {
-      type: 'BinaryExpression',
-      operator: '-',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
-    }
-  }
-
-  visitExpression?: ((ctx: ExpressionContext) => es.Expression) | undefined
-  visitStart?: ((ctx: StartContext) => es.Expression) | undefined
-
-  visit(tree: ParseTree): es.Expression {
+  visit(tree: ParseTree): any {
     return tree.accept(this)
   }
-  visitChildren(node: RuleNode): es.Expression {
+
+  // idk what to do with this
+  visitChildren(node: RuleNode): any {
     const expressions: es.Expression[] = []
     for (let i = 0; i < node.childCount; i++) {
       expressions.push(node.getChild(i).accept(this))
@@ -196,11 +476,11 @@ class ExpressionGenerator implements CalcVisitor<es.Expression> {
       expressions
     }
   }
-  visitTerminal(node: TerminalNode): es.Expression {
+  visitTerminal(node: TerminalNode): any {
     return node.accept(this)
   }
 
-  visitErrorNode(node: ErrorNode): es.Expression {
+  visitErrorNode(node: ErrorNode): any {
     throw new FatalSyntaxError(
       {
         start: {
@@ -217,35 +497,36 @@ class ExpressionGenerator implements CalcVisitor<es.Expression> {
   }
 }
 
-function convertExpression(expression: ExpressionContext): es.Expression {
-  const generator = new ExpressionGenerator()
-  return expression.accept(generator)
-}
+// function convertExpression(expression: ExpressionContext): es.Expression {
+//   const generator = new ExpressionGenerator()
+//   return expression.accept(generator)
+// }
 
-function convertSource(expression: ExpressionContext): es.Program {
-  return {
-    type: 'Program',
-    sourceType: 'script',
-    body: [
-      {
-        type: 'ExpressionStatement',
-        expression: convertExpression(expression)
-      }
-    ]
-  }
+function convertSource(program: ProgramContext): any {
+  const generator = new ProgramGenerator()
+  return program.accept(generator)
+  // return {
+  //   type: 'Program',
+  //   body: [
+  //     {
+  //       type: 'ExpressionStatement',
+  //       expression: convertExpression(expression)
+  //     }
+  //   ]
+  // }
 }
 
 export function parse(source: string, context: Context) {
-  let program: es.Program | undefined
+  let program: any
 
   if (context.variant === 'calc') {
     const inputStream = CharStreams.fromString(source)
-    const lexer = new CalcLexer(inputStream)
+    const lexer = new wlp3Lexer(inputStream)
     const tokenStream = new CommonTokenStream(lexer)
-    const parser = new CalcParser(tokenStream)
+    const parser = new wlp3Parser(tokenStream)
     parser.buildParseTree = true
     try {
-      const tree = parser.expression()
+      const tree = parser.program()
       program = convertSource(tree)
     } catch (error) {
       if (error instanceof FatalSyntaxError) {
@@ -256,6 +537,8 @@ export function parse(source: string, context: Context) {
     }
     const hasErrors = context.errors.find(m => m.severity === ErrorSeverity.ERROR)
     if (program && !hasErrors) {
+      console.log('wowowoer')
+      console.log(program)
       return program
     } else {
       return undefined
