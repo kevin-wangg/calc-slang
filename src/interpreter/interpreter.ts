@@ -1,6 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 import * as es from 'estree'
-import { isBoolean, isInteger, isString } from 'lodash'
+import { isBoolean, isInteger, isString, isUndefined } from 'lodash'
 
 import { RuntimeSourceError } from '../errors/runtimeSourceError'
 import { Pair, pair } from '../stdlib/list'
@@ -242,22 +242,18 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
 
   IntType: function* (node: any, context: Context) {
     // Do Nothing
-    // TODO: Type handling
   },
 
   BoolType: function* (node: any, context: Context) {
     // Do Nothing
-    // TODO: Type Handling
   },
 
   StringType: function* (node: any, context: Context) {
     // Do Nothing
-    // TODO: Type Handling
   },
 
   IntStarType: function* (node: any, context: Context) {
     // Do Nothing
-    // TODO: Type Handlings
   },
 
   ArgsList: function* (node: any, context: Context) {
@@ -305,8 +301,6 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
 
   DclAssignment: function* (node: any, context: Context) {
-    console.log("PRINTING TYPE")
-    console.log(node.d.t)
     push(A, {type: 'Assignment', lv: node.d.id.text, val: node.val})
   },
 
@@ -320,6 +314,10 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
 
   ExprStatement: function* (node: any, context: Context) {
     throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  Parentheses: function* (node: any, context: Context) {
+    push(A, node.val)
   },
 
   IntLiteral: function* (node: any, context: Context) {

@@ -50,6 +50,7 @@ import {
   ParamsContext,
   ParamsEmptyContext,
   ParamsListContext,
+  ParenthesesContext,
   PredicateContext,
   PrintfStatementContext,
   ProgramContext,
@@ -336,6 +337,13 @@ class ProgramGenerator implements wlp3Visitor<any> {
       val: this.visit(ctx._val)
     }
   }
+
+  visitParentheses(ctx: ParenthesesContext): any {
+    return {
+      type: 'Parentheses',
+      val: this.visit(ctx._inner)
+    }
+  }
   visitInt(ctx: IntContext): any {
     return {
       type: 'IntLiteral',
@@ -539,7 +547,6 @@ export function parse(source: string, context: Context) {
     if (program && !hasErrors) {
       console.log('wowowoer')
       console.log(program)
-      // console.log(program.mn.blk.stmnts)
       return program
     } else {
       return undefined

@@ -1,4 +1,4 @@
-grammar wlp3;
+grammar wlp3;		
 program: fun=function prog=program # FunProg
        | mn=main # MainProg
        ;
