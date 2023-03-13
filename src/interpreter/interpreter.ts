@@ -1,6 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 import * as es from 'estree'
-import { isBoolean, isString, isInteger } from 'lodash'
+import { isBoolean, isInteger, isString } from 'lodash'
 
 import { RuntimeSourceError } from '../errors/runtimeSourceError'
 import { Pair, pair } from '../stdlib/list'
@@ -98,7 +98,6 @@ const assign = (lval: string, val: any, env: Pair<any, any>) => {
     } else {
       throw new Error('Type mismatch: ' + lval + ' is a ' + type)
     }
-    
   } else {
     assign(lval, val, env[1])
   }
@@ -121,14 +120,18 @@ const lookup: any = (lval: string, env: Pair<any, any>) => {
     throw new Error('Unbound name: ' + lval)
   }
   if (env[0].hasOwnProperty(lval)) {
-    const v = env[0][lval]
-    if (is_unassigned(v)) throw new Error('Unassigned name for ' + lval)
+    const v = env[0][lval][1]
+    if (isUnassigned(v)) throw new Error('Unassigned name for ' + lval)
     return v
   }
   return lookup(lval, env[1])
 }
 
-const extendEnvironment = (lvals: Array<Pair<string, string>>, vals: Array<any>, env: Pair<any, any>) => {
+const extendEnvironment = (
+  lvals: Array<Pair<string, string>>,
+  vals: Array<any>,
+  env: Pair<any, any>
+) => {
   if (lvals.length > vals.length) {
     throw new Error('Too many arguments provided to extendEnvironment')
   }
@@ -146,7 +149,7 @@ const extendEnvironment = (lvals: Array<Pair<string, string>>, vals: Array<any>,
 }
 
 const unassigned = { type: 'Unassigned' }
-const is_unassigned = (v: any) => {
+const isUnassigned = (v: any) => {
   return v !== null && typeof v === 'object' && v.hasOwnProperty('type') && v.type === 'Unassigned'
 }
 
@@ -346,7 +349,7 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
 
   IdExpr: function* (node: any, context: Context) {
-    // push(S, lookup(node.id.text, E))
+    push(S, lookup(node.id.text, E))
   },
 
   FnExpr: function* (node: any, context: Context) {
@@ -402,7 +405,6 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
     if (error) {
       handleRuntimeError(context, error)
     }
-
     push(S, evaluateUnaryExpression(node.sym, value))
   },
 
@@ -413,8 +415,6 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
     if (error) {
       handleRuntimeError(context, error)
     }
-    console.log('Logging evaluate')
-    console.log(node.sym.children[0].text)
     push(S, evaluateBinaryExpression(node.sym.children[0].text, leftValue, rightValue))
   },
 
@@ -430,14 +430,7 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
   
   Assignment_i: function* (node: any, context: Context) {
-    assign(node.sym, peek(S), E)
-  },
-
-  Reset_i: function* (node: any, context: Context) {
-    const top = A.pop()
-    if (top !== undefined && top.type != 'Mark_i') {
-      push(A, node)
-    }
+    assign(node.sym, S.pop(), E)
   },
 
   Environment_i: function* (node: any, context: Context) {
