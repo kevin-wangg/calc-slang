@@ -1,4 +1,4 @@
-grammar wlp3;		
+grammar wlp3;
 program: fun=function prog=program # FunProg
        | mn=main # MainProg
        ;
@@ -23,6 +23,7 @@ type: 'int' # IntType
 expr: INT # Int
     | STRING # String
     | BOOL # Bool
+    | '(' inner=expr ')' # Parentheses
 	| unop=unaryoperator first=expr # UnopExpr
 	| first=expr binop=binaryoperator second=expr #BinopExpr
 	| first=expr binlog=binarylogical second=expr #BinlogExpr
@@ -51,11 +52,14 @@ arglist: first=expr # SingleArg
 binaryoperator: '+'
                | '-'
                | '*'
+               | '/'
+               | '%'
                | '=='
                | '>'
                | '<'
                | '<='
                | '>='
+               | '!='
                ;
 binarylogical: '&&'
               | '||'

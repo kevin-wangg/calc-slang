@@ -2,6 +2,7 @@
 import * as es from 'estree'
 
 import { RuntimeSourceError } from '../errors/runtimeSourceError'
+import { Pair, pair } from '../stdlib/list'
 import { Context, Environment, Value } from '../types'
 import { evaluateBinaryExpression, evaluateUnaryExpression } from '../utils/operators'
 import * as rttc from '../utils/rttc'
@@ -61,13 +62,112 @@ export const pushEnvironment = (context: Context, environment: Environment) => {
 
 export type Evaluator<T extends es.Node> = (node: T, context: Context) => IterableIterator<Value>
 
-function* evaluateBlockSatement(context: Context, node: es.BlockStatement) {
+function* evaluateBlockStatement(context: Context, node: es.BlockStatement) {
   let result
   for (const statement of node.body) {
     result = yield* evaluate(statement, context)
   }
   return result
 }
+
+const push = (array: Array<any>, ...items: any) => {
+  array.splice(array.length, 0, ...items)
+  return array
+}
+
+const peek = (array: Array<any>) => array.slice(-1)[0]
+
+const assign = (lval: string, val: any, env: Pair<any, any>) => {
+  if (env == null) throw new Error('unbound name: ' + lval)
+  if (env[0].hasOwnProperty(lval)) {
+    env[0][lval] = val
+  } else {
+    assign(lval, val, env[1])
+  }
+}
+
+const scan = (stmts: any) => {
+  const locals = []
+  while (stmts.type != 'StatementEmpty') {
+    const firstStatement = stmts.first
+    if (firstStatement.type == 'DclStatement' || firstStatement.type == 'DclAssignment') {
+      locals.push(firstStatement.d.id.text)
+    }
+    stmts = stmts.rest
+  }
+  return locals
+}
+
+const lookup: any = (lval: string, env: Pair<any, any>) => {
+  if (env == null) {
+    throw new Error('Unbound name: ' + lval)
+  }
+  if (env[0].hasOwnProperty(lval)) {
+    const v = env[0][lval]
+    if (is_unassigned(v)) throw new Error('Unassigned name for ' + lval)
+    return v
+  }
+  return lookup(lval, env[1])
+}
+
+const extendEnvironment = (lvals: Array<string>, vals: Array<any>, env: Pair<any, any>) => {
+  if (lvals.length > vals.length) {
+    throw new Error('Too many arguments provided to extendEnvironment')
+  }
+
+  if (lvals.length < vals.length) {
+    throw new Error('Too few arguments provided to extendEnvironment')
+  }
+  const new_frame = {}
+
+  for (let i = 0; i < lvals.length; i++) {
+    new_frame[lvals[i]] = vals[i]
+  }
+
+  return pair(new_frame, E)
+}
+
+const unassigned = { type: 'Unassigned' }
+const is_unassigned = (v: any) => {
+  return v !== null && typeof v === 'object' && v.hasOwnProperty('type') && v.type === 'Unassigned'
+}
+
+// Interpreter configurations:
+// A: agenda: stack of commands
+// S: stash: stack of values
+// E: environment: list of frames
+
+// agenda A
+
+// The agenda A is a stack of commands that still need
+// to be executed by the interpreter. The agenda follows
+// stack discipline: pop, push, peek at end of the array.
+
+// Commands are nodes of syntax tree or instructions.
+
+// Instructions are objects whose tag value ends in '_i'.
+
+// Execution initializes A as a singleton array
+// containing the given program.
+
+let A: Array<any>
+
+// stash S
+
+// stash S is array of values that stores intermediate
+// results. The stash follows strict stack discipline:
+// pop, push, peek at the end of the array.
+
+// Execution initializes stash S as an empty array.
+
+let S: Array<any>
+
+// environment E
+
+// See *environments* above. Execution initializes
+// environment E as the global environment.
+
+let E: Pair<any, any>
 
 /**
  * WARNING: Do not use object literal shorthands, e.g.
@@ -82,133 +182,289 @@ function* evaluateBlockSatement(context: Context, node: es.BlockStatement) {
 // tslint:disable:object-literal-shorthand
 // prettier-ignore
 export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
-  /** Simple Values */
-  Literal: function* (node: es.Literal, _context: Context) {
-    return node.value
+
+  StatementList: function* (node: any, context: Context) {
+    push(A, node.rest, node.first)
   },
 
-  TemplateLiteral: function* (node: es.TemplateLiteral) {
-    // Expressions like `${1}` are not allowed, so no processing needed
-    return node.quasis[0].value.cooked
+  StatementEmpty: function* (node: any, context: Context) {
+    // Do Nothing
   },
 
-  ThisExpression: function* (node: es.ThisExpression, context: Context) {
+  SingleParam: function* (node: any, context: Context) {
     throw new Error(`not supported yet: ${node.type}`)
   },
 
-  ArrayExpression: function* (node: es.ArrayExpression, context: Context) {
+  MultiParam: function* (node: any, context: Context) {
     throw new Error(`not supported yet: ${node.type}`)
   },
 
-
-  FunctionExpression: function* (node: es.FunctionExpression, context: Context) {
+  FunProg: function* (node: any, context: Context) {
     throw new Error(`not supported yet: ${node.type}`)
   },
 
-  ArrowFunctionExpression: function* (node: es.ArrowFunctionExpression, context: Context) {
+  Lambda: function* (node: any, context: Context) {
     throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  Identifier: function* (node: es.Identifier, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  CallExpression: function* (node: es.CallExpression, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  NewExpression: function* (node: es.NewExpression, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  UnaryExpression: function* (node: es.UnaryExpression, context: Context) {
-    const value = yield* actualValue(node.argument, context)
-
-    const error = rttc.checkUnaryExpression(node, node.operator, value)
-    if (error) {
-      return handleRuntimeError(context, error)
-    }
-    return evaluateUnaryExpression(node.operator, value)
-  },
-
-  BinaryExpression: function* (node: es.BinaryExpression, context: Context) {
-    const left = yield* actualValue(node.left, context)
-    const right = yield* actualValue(node.right, context)
-    const error = rttc.checkBinaryExpression(node, node.operator, left, right)
-    if (error) {
-      return handleRuntimeError(context, error)
-    }
-    return evaluateBinaryExpression(node.operator, left, right)
-  },
-
-  ConditionalExpression: function* (node: es.ConditionalExpression, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  LogicalExpression: function* (node: es.LogicalExpression, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  VariableDeclaration: function* (node: es.VariableDeclaration, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  ContinueStatement: function* (_node: es.ContinueStatement, _context: Context) {
-    throw new Error(`not supported yet: ${_node.type}`)
-  },
-
-  BreakStatement: function* (_node: es.BreakStatement, _context: Context) {
-    throw new Error(`not supported yet: ${_node.type}`)
-  },
-
-  ForStatement: function* (node: es.ForStatement, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-
-  AssignmentExpression: function* (node: es.AssignmentExpression, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  FunctionDeclaration: function* (node: es.FunctionDeclaration, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  IfStatement: function* (node: es.IfStatement | es.ConditionalExpression, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  ExpressionStatement: function* (node: es.ExpressionStatement, context: Context) {
-    return yield* evaluate(node.expression, context)
-  },
-
-  ReturnStatement: function* (node: es.ReturnStatement, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  WhileStatement: function* (node: es.WhileStatement, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-
-  BlockStatement: function* (node: es.BlockStatement, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
-  },
-
-  Program: function* (node: es.BlockStatement, context: Context) {
-    const result = yield* forceIt(yield* evaluateBlockSatement(context, node), context);
-    return result;
   },
 
   MainProg: function* (node: any, context: Context) {
+    push(A, node.mn.blk)
+  },
+
+  ParamsList: function* (node: any, context: Context) {
     throw new Error(`not supported yet: ${node.type}`)
-  }
+  },
+
+  ParamsEmpty: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  IntType: function* (node: any, context: Context) {
+    // Do Nothing
+    // TODO: Type handling
+  },
+
+  BoolType: function* (node: any, context: Context) {
+    // Do Nothing
+    // TODO: Type Handling
+  },
+
+  StringType: function* (node: any, context: Context) {
+    // Do Nothing
+    // TODO: Type Handling
+  },
+
+  IntStarType: function* (node: any, context: Context) {
+    // Do Nothing
+    // TODO: Type Handlings
+  },
+
+  ArgsList: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  ArgsEmpty: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  IdLvalue: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  BracketLvalue: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  SingleArg: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  MultiArgs: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  Assignment: function* (node: any, context: Context) {
+    push(A, {type:'Assignment_i', sym: node.lv}, node.val)
+  },
+
+  IfStatement: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  WhileStatement: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  PrintfStatement: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  DclStatement: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  DclAssignment: function* (node: any, context: Context) {
+    console.log(node.d.t)
+    push(A, {type: 'Assignment', lv: node.d.id.text, val: node.val})
+  },
+
+  ReturnStatement: function* (node: any, context: Context) {
+    push(A, node.val)
+  },
+
+  FreeStatement: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  ExprStatement: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  IntLiteral: function* (node: any, context: Context) {
+    push(S, node.val)
+  },
+
+  StringLiteral: function* (node: any, context: Context) {
+    push(S, node.val)
+  },
+
+  BoolLiteral: function* (node: any, context: Context) {
+    push(S, node.val)
+  },
+
+  UnopExpr: function* (node: any, context: Context) {
+    push(A, {type: "UnopExpr_i", sym: node.unop}, node.first)
+  },
+
+  BinopExpr: function* (node: any, context: Context) {
+    console.log("in BinopExpr")
+    console.log(node)
+    push(A, {type: "BinopExpr_i", sym: node.binop}, node.second, node.first)
+  },
+
+  BinlogExpr: function* (node: any, context: Context) {
+    push(A, {type: "BinlogExpr_i", sym: node.binop}, node.second, node.first)
+  },
+
+  IdExpr: function* (node: any, context: Context) {
+    // push(S, lookup(node.id.text, E))
+  },
+
+  FnExpr: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  MallocExpr: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  StarExpr: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  AmpersandExpr: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  Program: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  Main: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  Function: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  Block: function* (node: any, context: Context) {
+    const locals: Array<string> = scan(node.stmnts)
+    const unassignedList: Array<any> = locals.map(_ => unassigned)
+    if (!(A.length === 0)) {
+      push(A, {type: 'Environment_i', env: E})
+    }
+    push(A, node.stmnts)
+    E = extendEnvironment(locals, unassignedList, E)
+  },
+
+  Dcl: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  Predicate: function* (node: any, context: Context) {
+    throw new Error(`not supported yet: ${node.type}`)
+  },
+
+  // Instructions
+  UnopExpr_i: function* (node: any, context: Context) {
+    const value = S.pop()
+    const error = rttc.checkUnaryExpression(node, node.sym, value)
+    if (error) {
+      handleRuntimeError(context, error)
+    }
+
+    push(S, evaluateUnaryExpression(node.sym, value))
+  },
+
+  BinopExpr_i: function* (node: any, context: Context) {
+    const leftValue = S.pop()
+    const rightValue = S.pop()
+    const error = rttc.checkBinaryExpression(node, node.sym, leftValue, rightValue)
+    if (error) {
+      handleRuntimeError(context, error)
+    }
+    console.log('Logging evaluate')
+    console.log(node.sym.children[0].text)
+    push(S, evaluateBinaryExpression(node.sym.children[0].text, leftValue, rightValue))
+  },
+
+  BinlogExpr_i: function* (node: any, context: Context) {
+    const leftValue = S.pop()
+    const rightValue = S.pop()
+    const error = rttc.checkBinaryExpression(node, node.sym, leftValue, rightValue)
+    if (error) {
+      handleRuntimeError(context, error)
+    }
+
+    push(S, evaluateBinaryExpression(node.sym.children[0].text, leftValue, rightValue))
+  },
+  
+  Assignment_i: function* (node: any, context: Context) {
+    assign(node.sym, peek(S), E)
+  },
+
+  Reset_i: function* (node: any, context: Context) {
+    const top = A.pop()
+    if (top !== undefined && top.type != 'Mark_i') {
+      push(A, node)
+    }
+  },
+
+  Environment_i: function* (node: any, context: Context) {
+    E = node.env
+  },
 }
 // tslint:enable:object-literal-shorthand
 
+// An environment is null or a pair whose head is a frame
+// and whose tail is an environment.
+const global_frame = {}
+const global_environment = null
+const step_limit = 1000000
+
 export function* evaluate(node: es.Node, context: Context) {
-  console.log(`Evaluating ${node}`)
-  const result = yield* evaluators[node.type](node, context)
+  A = []
+  A.push(node)
+  S = []
+  E = pair(global_frame, global_environment)
+
+  let i = 0
+  while (i < step_limit) {
+    if (A.length === 0) {
+      console.log('breaking')
+      break
+    }
+
+    console.log('Step ' + i)
+    console.log('PRINTING A')
+    console.log(A)
+    console.log('PRINTING S')
+    console.log(S)
+    console.log('PRINTING E')
+    console.log(E)
+
+    const cmd = A.pop()
+    yield* evaluators[cmd.type](cmd, context)
+    i++
+  }
+
+  if (i === step_limit) {
+    throw new Error('step limit ' + step_limit + ' exceeded')
+  }
+  if (S.length > 1 || S.length < 1) {
+    throw new Error('internal error: stash must be singleton but is not')
+  }
   yield* leave(context)
-  return result
+  return S[0]
 }

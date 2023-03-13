@@ -539,6 +539,7 @@ export function parse(source: string, context: Context) {
     if (program && !hasErrors) {
       console.log('wowowoer')
       console.log(program)
+      // console.log(program.mn.blk.stmnts)
       return program
     } else {
       return undefined
