@@ -1,5 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 import * as es from 'estree'
+import { isBoolean, isString, isInteger } from 'lodash'
 
 import { RuntimeSourceError } from '../errors/runtimeSourceError'
 import { Pair, pair } from '../stdlib/list'
@@ -77,10 +78,27 @@ const push = (array: Array<any>, ...items: any) => {
 
 const peek = (array: Array<any>) => array.slice(-1)[0]
 
+const isTypeMatch = (lval: string, val: any, type: string) => {
+  if (type == 'StringType' && isString(val)) {
+    return true
+  } else if (type == 'BoolType' && isBoolean(val)) {
+    return true
+  } else if (type == 'IntType' && isInteger(val)) {
+    return true
+  }
+  return false
+}
+
 const assign = (lval: string, val: any, env: Pair<any, any>) => {
   if (env == null) throw new Error('unbound name: ' + lval)
   if (env[0].hasOwnProperty(lval)) {
-    env[0][lval] = val
+    const type = env[0][lval][0]
+    if (isTypeMatch(lval, val, type)) {
+      env[0][lval][1] = val
+    } else {
+      throw new Error('Type mismatch: ' + lval + ' is a ' + type)
+    }
+    
   } else {
     assign(lval, val, env[1])
   }
@@ -91,7 +109,7 @@ const scan = (stmts: any) => {
   while (stmts.type != 'StatementEmpty') {
     const firstStatement = stmts.first
     if (firstStatement.type == 'DclStatement' || firstStatement.type == 'DclAssignment') {
-      locals.push(firstStatement.d.id.text)
+      locals.push(pair(firstStatement.d.id.text, firstStatement.d.t.type))
     }
     stmts = stmts.rest
   }
@@ -110,7 +128,7 @@ const lookup: any = (lval: string, env: Pair<any, any>) => {
   return lookup(lval, env[1])
 }
 
-const extendEnvironment = (lvals: Array<string>, vals: Array<any>, env: Pair<any, any>) => {
+const extendEnvironment = (lvals: Array<Pair<string, string>>, vals: Array<any>, env: Pair<any, any>) => {
   if (lvals.length > vals.length) {
     throw new Error('Too many arguments provided to extendEnvironment')
   }
@@ -121,7 +139,7 @@ const extendEnvironment = (lvals: Array<string>, vals: Array<any>, env: Pair<any
   const new_frame = {}
 
   for (let i = 0; i < lvals.length; i++) {
-    new_frame[lvals[i]] = vals[i]
+    new_frame[lvals[i][0]] = pair(lvals[i][1], vals[i])
   }
 
   return pair(new_frame, E)
@@ -284,6 +302,7 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
 
   DclAssignment: function* (node: any, context: Context) {
+    console.log("PRINTING TYPE")
     console.log(node.d.t)
     push(A, {type: 'Assignment', lv: node.d.id.text, val: node.val})
   },
@@ -359,7 +378,7 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
 
   Block: function* (node: any, context: Context) {
-    const locals: Array<string> = scan(node.stmnts)
+    const locals: Array<Pair<string,string>> = scan(node.stmnts)
     const unassignedList: Array<any> = locals.map(_ => unassigned)
     if (!(A.length === 0)) {
       push(A, {type: 'Environment_i', env: E})
