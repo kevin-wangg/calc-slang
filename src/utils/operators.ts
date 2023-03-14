@@ -185,9 +185,9 @@ export function evaluateBinaryExpression(operator: string, left: any, right: any
       return left / right
     case '%':
       return left % right
-    case '===':
+    case '==':
       return left === right
-    case '!==':
+    case '!=':
       return left !== right
     case '<=':
       return left <= right

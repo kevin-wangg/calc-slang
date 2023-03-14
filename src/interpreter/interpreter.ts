@@ -285,7 +285,7 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
 
   IfStatement: function* (node: any, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
+    push(A, {type: 'Branch_i', cons: node.cons, alt: node.alt}, node.pred)
   },
 
   WhileStatement: function* (node: any, context: Context) {
@@ -301,10 +301,11 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
 
   DclAssignment: function* (node: any, context: Context) {
-    push(A, {type: 'Assignment', lv: node.d.id.text, val: node.val})
+    push(A, {type: 'Assignment', lv: { type: 'IdLvalue', id: node.d.id}, val: node.val})
   },
 
   ReturnStatement: function* (node: any, context: Context) {
+    // TODO: Implement properly with functions
     push(A, node.val)
   },
 
@@ -391,7 +392,7 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
 
   Predicate: function* (node: any, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
+    push(A, node.pred)
   },
 
   // Instructions
@@ -426,11 +427,15 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
   
   Assignment_i: function* (node: any, context: Context) {
-    assign(node.sym, S.pop(), E)
+    assign(node.sym.id.text, S.pop(), E)
   },
 
   Environment_i: function* (node: any, context: Context) {
     E = node.env
+  },
+
+  Branch_i: function* (node: any, context: Context) {
+    push(A, S.pop() ? node.cons: node.alt)
   },
 }
 // tslint:enable:object-literal-shorthand
@@ -454,12 +459,12 @@ export function* evaluate(node: es.Node, context: Context) {
     }
 
     // Debugging
-    // console.log('PRINTING A')
-    // console.log(A)
-    // console.log('PRINTING S')
-    // console.log(S)
-    // console.log('PRINTING E')
-    // console.log(E)
+    console.log('PRINTING A')
+    console.log(A)
+    console.log('PRINTING S')
+    console.log(S)
+    console.log('PRINTING E')
+    console.log(E)
 
     const cmd = A.pop()
     yield* evaluators[cmd.type](cmd, context)
