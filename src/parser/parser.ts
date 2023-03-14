@@ -50,6 +50,7 @@ import {
   ParamsContext,
   ParamsEmptyContext,
   ParamsListContext,
+  ParenthesesContext,
   PredicateContext,
   PrintfStatementContext,
   ProgramContext,
@@ -334,6 +335,13 @@ class ProgramGenerator implements wlp3Visitor<any> {
     return {
       type: 'ExprStatement',
       val: this.visit(ctx._val)
+    }
+  }
+
+  visitParentheses(ctx: ParenthesesContext): any {
+    return {
+      type: 'Parentheses',
+      val: this.visit(ctx._inner)
     }
   }
   visitInt(ctx: IntContext): any {
