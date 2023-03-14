@@ -71,14 +71,14 @@ function* evaluateBlockStatement(context: Context, node: es.BlockStatement) {
   return result
 }
 
-const push = (array: Array<any>, ...items: any) => {
+const push = (array: Array<any>, ...items: any): Array<any> => {
   array.splice(array.length, 0, ...items)
   return array
 }
 
-const peek = (array: Array<any>) => array.slice(-1)[0]
+const peek = (array: Array<any>): any => array.slice(-1)[0]
 
-const isTypeMatch = (lval: string, val: any, type: string) => {
+const isTypeMatch = (lval: string, val: any, type: string): boolean => {
   if (type == 'StringType' && isString(val)) {
     return true
   } else if (type == 'BoolType' && isBoolean(val)) {
@@ -89,7 +89,7 @@ const isTypeMatch = (lval: string, val: any, type: string) => {
   return false
 }
 
-const assign = (lval: string, val: any, env: Pair<any, any>) => {
+const assign = (lval: string, val: any, env: Pair<any, any>): void => {
   if (env == null) throw new Error('unbound name: ' + lval)
   if (env[0].hasOwnProperty(lval)) {
     const type = env[0][lval][0]
@@ -103,7 +103,7 @@ const assign = (lval: string, val: any, env: Pair<any, any>) => {
   }
 }
 
-const scan = (stmts: any) => {
+const scan = (stmts: any): Array<Pair<string, string>> => {
   const locals = []
   while (stmts.type != 'StatementEmpty') {
     const firstStatement = stmts.first
@@ -115,7 +115,7 @@ const scan = (stmts: any) => {
   return locals
 }
 
-const lookup: any = (lval: string, env: Pair<any, any>) => {
+const lookup = (lval: string, env: Pair<any, any>): any => {
   if (env == null) {
     throw new Error('Unbound name: ' + lval)
   }
@@ -131,7 +131,7 @@ const extendEnvironment = (
   lvals: Array<Pair<string, string>>,
   vals: Array<any>,
   env: Pair<any, any>
-) => {
+): Pair<any, any> => {
   if (lvals.length > vals.length) {
     throw new Error('Too many arguments provided to extendEnvironment')
   }
@@ -149,7 +149,7 @@ const extendEnvironment = (
 }
 
 const unassigned = { type: 'Unassigned' }
-const isUnassigned = (v: any) => {
+const isUnassigned = (v: any): boolean => {
   return v !== null && typeof v === 'object' && v.hasOwnProperty('type') && v.type === 'Unassigned'
 }
 
@@ -337,8 +337,6 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
 
   BinopExpr: function* (node: any, context: Context) {
-    console.log("in BinopExpr")
-    console.log(node)
     push(A, {type: "BinopExpr_i", sym: node.binop}, node.second, node.first)
   },
 
@@ -452,17 +450,16 @@ export function* evaluate(node: es.Node, context: Context) {
   let i = 0
   while (i < step_limit) {
     if (A.length === 0) {
-      console.log('breaking')
       break
     }
 
-    console.log('Step ' + i)
-    console.log('PRINTING A')
-    console.log(A)
-    console.log('PRINTING S')
-    console.log(S)
-    console.log('PRINTING E')
-    console.log(E)
+    // Debugging
+    // console.log('PRINTING A')
+    // console.log(A)
+    // console.log('PRINTING S')
+    // console.log(S)
+    // console.log('PRINTING E')
+    // console.log(E)
 
     const cmd = A.pop()
     yield* evaluators[cmd.type](cmd, context)
