@@ -116,6 +116,7 @@ const scan = (stmts: any): Array<Pair<string, string>> => {
 }
 
 const lookup = (lval: string, env: Pair<any, any>): any => {
+  console.log('Lookup in env ', lval)
   if (env == null) {
     throw new Error('Unbound name: ' + lval)
   }
@@ -313,7 +314,11 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   },
 
   ExprStatement: function* (node: any, context: Context) {
-    throw new Error(`not supported yet: ${node.type}`)
+    push(A, { type: 'Pop_i' }, node.val)
+  },
+
+  Pop_i: function* (node: any, context: Context) {
+    S.pop()
   },
 
   Parentheses: function* (node: any, context: Context) {
@@ -454,12 +459,12 @@ export function* evaluate(node: es.Node, context: Context) {
     }
 
     // Debugging
-    // console.log('PRINTING A')
-    // console.log(A)
-    // console.log('PRINTING S')
-    // console.log(S)
-    // console.log('PRINTING E')
-    // console.log(E)
+    console.log('PRINTING A')
+    console.log(A)
+    console.log('PRINTING S')
+    console.log(S)
+    console.log('PRINTING E')
+    console.log(E)
 
     const cmd = A.pop()
     yield* evaluators[cmd.type](cmd, context)
