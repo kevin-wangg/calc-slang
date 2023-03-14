@@ -23,6 +23,7 @@ type: 'int' # IntType
 expr: INT # Int
     | STRING # String
     | BOOL # Bool
+    | '(' inner=expr ')' # Parentheses
 	| unop=unaryoperator first=expr # UnopExpr
 	| first=expr binop=binaryoperator second=expr #BinopExpr
 	| first=expr binlog=binarylogical second=expr #BinlogExpr
@@ -51,11 +52,14 @@ arglist: first=expr # SingleArg
 binaryoperator: '+'
                | '-'
                | '*'
+               | '/'
+               | '%'
                | '=='
                | '>'
                | '<'
                | '<='
                | '>='
+               | '!='
                ;
 binarylogical: '&&'
               | '||'
@@ -69,6 +73,5 @@ lvalue: id=ID # IdLvalue
 WS      : [ \t\r\n]+ -> skip ;
 INT     : [0-9]+ ;
 STRING  : '"'[a-zA-Z0-9]+'"' ;
-ID: [a-zA-Z_][a-zA-Z_0-9]* ;
 BOOL    : 'true' | 'false';
-
+ID: [a-zA-Z_][a-zA-Z_0-9]* ;
